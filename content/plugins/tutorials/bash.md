@@ -24,21 +24,25 @@ From [Bash documentation](https://www.gnu.org/software/bash/):
 To create a plugin using Bash, we'll need to first decide what task we want this plugin to accomplish. For this example, we're going to create a script that runs a `curl` command from the provided input:
 
 ```sh
-#!/bin/sh
+#!/usr/bin/env bash
 
+# import method parameter from environment
+method=${PARAMETER_METHOD}
+# import body parameter from environment
+body=${PARAMETER_BODY}
+# import url parameter from environment
+url=${PARAMETER_URL}
+
+# send curl request from provided input
 curl \
-  -X "${PARAMETER_METHOD}" \
-  -d "${PARAMETER_BODY}" \
-  "${PARAMETER_URL}"
+  -X "${method}" \
+  -d "${body}" \
+  "${url}"
 ```
 
-## Executable
-
-Now that we have the script to accomplish our plugin's task, we need to ensure the code is executable for our plugin:
-
-```sh
-chmod +x script.sh
-```
+{{% alert color="info" %}}
+An example of this code is provided in our [bash section](https://github.com/go-vela/vela-plugin-tutorials/tree/master/bash) of the [go-vela/vela-plugin-tutorials](https://github.com/go-vela/vela-plugin-tutorials) repository.
+{{% /alert %}}
 
 ## Image
 
@@ -47,13 +51,11 @@ Once we have the executable needed to accomplish our plugin's task, we need to c
 ```docker
 FROM alpine
 
-RUN apk add --update --no-cache ca-certificates curl
+RUN apk add --update --no-cache bash ca-certificates curl
 
-COPY script.sh /bin/script.sh
+COPY vela-sample.sh /bin/vela-sample.sh
 
-RUN chmod +x /bin/script.sh
-
-ENTRYPOINT /bin/script.sh
+ENTRYPOINT ["bash", "/bin/vela-sample.sh"]
 ```
 
 ## Publishing
