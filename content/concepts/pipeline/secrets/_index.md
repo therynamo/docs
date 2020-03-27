@@ -64,8 +64,8 @@ steps:
     secrets: [ username, password ]
     commands:
       - echo "machine github.com" > .netrc
-      - echo "login ${USERNAME}" > .netrc
-      - echo "password ${PASSWORD}" > .netrc
+      - echo "login ${USERNAME}" >> .netrc
+      - echo "password ${PASSWORD}" >> .netrc
       - go test ./...
 ```
 
