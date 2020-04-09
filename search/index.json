@@ -1,0 +1,1308 @@
+
+{ "results": [
+
+
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/getting-started/authenticate/",
+    "display": "Usage/Getting started/Authenticate",
+    "title": "Authenticate",
+    "content": "warning these docs assume you have vela running. ui navigate to your deployed instance follow the oauth workflow presented on web interface. cli please see authentication reference. if not yet installed cli, install reference first. api sdk "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/examples/golang/",
+    "display": "Pipeline/Examples/Golang",
+    "title": "Go",
+    "content": "version:&#34;1&#34;steps:-name:installimage:golang:latestpull:trueenvironment:cgo_enabled:&#39;0&#39;goos:linuxcommands:-goget./...-name:testimage:golang:latestpull:trueenvironment:cgo_enabled:&#39;0&#39;goos:linuxcommands:-gotest./...-name:buildimage:golang:latestpull:trueenvironment:cgo_enabled:&#39;0&#39;goos:linuxcommands:-gobuild "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/steps/image/",
+    "display": "Pipeline/Steps/Image",
+    "title": "Image",
+    "content": "the image declaration for build step instructs vela which docker to use create ephemeral container. means setup install repository dependencies on host machine not required as it ensures all are available within image. version: &#34;1&#34; steps: name: test image: golang commands: go ./... valid images any registry can be used environment. image:golangimage:golang:latestimage:golang:1.13image:library/golang:1.13image:index.docker.io/library/golangimage:index.docker.io/library/golang:1.13 pull will always attempt from its existing cache images. however, users force automatic upgrades when updates available. pull: true "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/examples/java/",
+    "display": "Pipeline/Examples/Java",
+    "title": "Java",
+    "content": "version:&#34;1&#34;steps:-name:installimage:openjdk:8-alpinepull:trueenvironment:gradle_user_home:.gradlegradle_opts:-dorg.gradle.daemon=false-dorg.gradle.workers.max=1-dorg.gradle.parallel=falsecommands:-./gradlewdownloaddependencies-name:testimage:openjdk:8-alpinepull:trueenvironment:gradle_user_home:.gradlegradle_opts:-dorg.gradle.daemon=false-dorg.gradle.workers.max=1-dorg.gradle.parallel=falsecommands:-./gradlewtest-name:buildimage:openjdk:8-alpinepull:trueenvironment:gradle_user_home:.gradlegradle_opts:-dorg.gradle.daemon=false-dorg.gradle.workers.max=1-dorg.gradle.parallel=falsecommands:-./gradlewbuild "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/getting-started/roles/",
+    "display": "Usage/Getting started/Roles",
+    "title": "Roles",
+    "content": "warning at time the only source control provider github. so documentation tailored for those users. vela does not maintain any authentication (authn) authorization (authz) internally, but instead inherits its access from (version control) provider. more information on github&rsquo;s model can be found their documentation. platform roles: admin write read roles admins have full when interacting with cli, ui, api. within github organization option to use orgs allow users permissions all repositories org, fine-grained of adding directly individual repositories. role enables repository, which grants following levels resources: repo build step service log secret "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/steps/ruleset/",
+    "display": "Pipeline/Steps/Ruleset",
+    "title": "Ruleset",
+    "content": "the ruleset declaration for build step instructs vela what set of rules (conditions) to execute under. these limit execution at runtime and, if all evaluate true, executed; otherwise it skipped. version: &#34;1&#34; steps: name: test image: golang ruleset: branch: master event: push commands: go ./... would branch event triggered event. below description rule types trigger off as how configure them. type limits matching branches. example will run stage master: ruleset:branch:[stage,master] events. pull_request: ruleset:event:[push,pull_request] status statuses. failure success: ruleset:status:[failure,success] continue continuing on any failure. true: ruleset:continue:true tag references. ref dev/* test/*: ruleset:tag:[dev/*,test/*] path files changed repository. file readme.md, *.md root directory ./test/* has changed: ruleset:path:[readme.md,&#34;*.md&#34;,&#34;./test/*&#34;] assumes from above examples that you are implicitly choosing rules. other words, two interpreted exactly same vela: if: rulesets unless not provided, evaluation logic match provided however, steps do like below: unless: always push. advanced enables even more conditional triggers by adding operator. consider example: push, pull_request, tag: release/* pull_request release/*. problem here stop executing events matched, which likely unintended behavior. fix it, add operator: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/metadata/template/",
+    "display": "Pipeline/Metadata/Template",
+    "title": "Template",
+    "content": "+metadata template: true steps: name: test image: golang commands: go ./... build "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/version/",
+    "display": "Usage/Pipeline/Version",
+    "title": "Version",
+    "content": "the version declaration instructs vela of configuration syntax for pipeline functionality being utilized within pipeline. +metadata version: &#34;1&#34; steps: name: test image: golang commands: go ./... build "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/getting-started/enable_repo/",
+    "display": "Usage/Getting started/Enable repo",
+    "title": "Enable a Repo",
+    "content": "note: you will need admin access to the repo be able activate it vela. because add webhooks repo. via ui for example, we&rsquo;ll go over using can always head cli docs on how cli. log into your vela instance. click repositories. select org from available list. next would like add. alternatively all repos an org. if doesn&rsquo;t exist, try clicking refresh list top right. now has necessary web hook "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/steps/environment/",
+    "display": "Pipeline/Steps/Environment",
+    "title": "Environment",
+    "content": "the environment declaration for build step instructs vela to insert given input as variables. warning you should not use plugin parameters secrets. please see steps: name: install image: golang:latest pull: true environment: cgo_enabled: &#39;0&#39; goos: linux commands: go get ./... "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/examples/node/",
+    "display": "Pipeline/Examples/Node",
+    "title": "Node",
+    "content": "version:&#34;1&#34;steps:-name:installimage:node:latestpull:truecommands:-yarn-name:lintimage:node:latestpull:truecommands:-yarnlint-name:buildimage:node:latestpull:truecommands:-yarnbuild "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/getting-started/write_pipeline/",
+    "display": "Usage/Getting started/Write pipeline",
+    "title": "Write a Pipeline",
+    "content": "get started by placing .vela.yml file the root of your repository. below an example with single “hello world” step. version:&#34;1&#34;steps:-name:hello_worldimage:alpine:latestcommands:-echo&#34;hello world&#34; you can break build into multiple named steps (see example). each step executes separate docker container shared disk access to project workspace. steps:-name:helloimage:alpine:latestcommands:-echo&#34;hello&#34;-name:worldimage:alpine:latestcommands:-echo&#34;world&#34; note that above names are completely arbitrary. call them whatever like. images vela inside image workspace mounted. means don’t have setup install any repository dependencies on host machine. use valid registry as environment. steps:-name:buildimage:golang:1.6 cloning automatically clones local volume, workspace, mounted container. available all process, including plugins service containers. commands allows specify executed within default shell working directory. steps:-namebuildimage:golangcommands:-goget-gobuild-gotest ruleset rulesets allow when will be triggered. restrict specific condition rule run unless met. read more pipeline docs. steps:-name:hello_worldimage:alpine:latestruleset:branch:masterevent:pushcommands:-echo&#34;hello "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/authentication/",
+    "display": "Docs/Api/Authentication",
+    "title": "Authentication",
+    "content": "overview authentication for the vela api responsibility of client initiating request. each request requires token to be provided as an authorization http header. content header should using bearer &lt;token&gt; scheme. authorization: more information, you can visit swagger documentation. format tokens are based off json web (a.k.a. jwt) standard. broken down into distinct sections, separated by periods (.): metadata about type signing algorithm used payload data claims) providing additional information signature encoded string header, secret syntax header.payload.signature sample xxxxx.yyyyy.zzzzz jwt introduction curl -x get -h &#34;authorization: &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/users&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/install/",
+    "display": "Docs/Cli/Install",
+    "title": "Install",
+    "content": "please keep mind your operating system (os) when referring to the installation instructions below. macos homebrew recommended method for installing vela cli on mac. add tap brew configuration go-vela/vela update taps install curl download binary -l https://github.com/go-vela/cli/releases/download/v0.2.0/vela_darwin_amd64.tar.gz tar zx copy $path sudo cp /usr/local/bin/ linux https://github.com/go-vela/cli/releases/download/v0.2.0/vela_linux_amd64.tar.gz windows utility must be installed before following command prompt https://github.com/go-vela/cli/releases/download/v0.2.0/vela_windows_amd64.tar.gz --output vela_windows_amd64.tar.gz unzip tarball xzvf c: system32/vela.exe powershell -outfile (powershell core) from source intended developers advanced users only. section assumes you have already setup golang. golang, review documentation. repo go get -d github.com/go-vela/cli change directory cd ${gopath}/src/github.com/go-vela/cli build release with -o releases/vela "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/install/",
+    "display": "Sdk/Go/Install",
+    "title": "Install",
+    "content": "download you can the go sdk to your project with following command: get -u github.com/go-vela/sdk-go import into statement: &#34;github.com/go-vela/sdk-go/vela&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/stages/",
+    "display": "Usage/Pipeline/Stages",
+    "title": "Stages",
+    "content": "stages are grouping of steps. they contain name an array by default, all run parallel. you can specify that stage requires another stage&rsquo;s completion using the needs: field. needs takes names need to be completed before given step begin. version:&#34;1&#34;stages:backend:steps:-name:installimage:golang:latestcommands:-goget./...-name:testimage:golang:latestcommands:-gotest./...-name:buildimage:golang:latestcommands:-gobuildfrontend:steps:-name:installimage:npm:latestcommands:-npminstall-name:testimage:npm:latestcommands:-npmruntest-name:buildimage:npm:latestcommands:-npmrunbuildnotify:needs:[backend,frontend]steps:-name:notifyimage:alpinecommands:-echocompleted! example, notify will only begin once backend frontend complete. allows steps complete independently. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/getting-started/start_build/",
+    "display": "Usage/Getting started/Start build",
+    "title": "Start a Build",
+    "content": "if you&rsquo;ve followed the documentation for enabling repo writing pipeline, all that should be left to push your pipeline repo. build does not trigger when change repo, check webhook response see there an error. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/workspace/",
+    "display": "Usage/Pipeline/Workspace",
+    "title": "Workspace",
+    "content": "cloning vela automatically checks out the repository into local volume that mounted each docker container. generally referred to as workspace, which defines working directory shared by all steps build. git clone https://github.com/octocat/hello-world.git &lt;workspace&gt; ensures code, dependencies, compiled binaries are persisted between steps. default workspace attached every build unique matches below pattern: syntax /home/&lt;source org&gt;_&lt;source repo&gt;_&lt;build number&gt; example /home/octocat_hello-world_1 would be equivalent following commands being executed: create build-workspace run --volume=build-workspace:/home/octocat_hello-world_1 &lt;image&gt; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/steps/parameters/",
+    "display": "Pipeline/Steps/Parameters",
+    "title": "Parameters",
+    "content": "the parameters declaration for build step used to pass values plugin. are injected into as parameter_[name] needed plugin documented that plugins docs. steps: name: api-call image: myplugin:v1.0.0 pull: true parameters: api_url: &#39;myapi.mydomain.com&#39; commands: go get ./... would set an environment variable of parameter_api_url with value myapi.mydomain.com "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/steps/secrets/",
+    "display": "Pipeline/Steps/Secrets",
+    "title": "Secrets",
+    "content": "the secrets declaration for pipeline instructs vela what to retrieve before executing build. version: &#34;1&#34; +secrets: name: docker_username key: engine: native type: repo docker_password top level then allows injection of these secret variables into environment provided build step(s). step(s) request access using same which injects runtime as all upper case variables. steps: docker username: &lt;username&gt; password: &lt;password&gt; secrets: docker_username, alternate names there may be scenarios where requirement store names. can mapped an name when injected entire individual step. source: docker_eng_username target: docker_eng_password username password reference offers number different ways your secrets. see full set options navigate section. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/authentication/",
+    "display": "Docs/Cli/Authentication",
+    "title": "Authentication",
+    "content": "overview authentication with the vela cli responsibility of client initiating request. each request requires server address user token to be provided. you can provide these variables three ways: configuration file environment flags recommended method for providing cli. default path found $home/.vela/config.yml. log capture personal token: syntax --addr &lt;vela url&gt; login example https://vela-server.localhost generate file: config --token &lt;personal token&gt; qwerty123 more information, visit documentation. configure vela_addr variable: export vela_addr=https://vela-server.localhost vela_token vela_token=&lt;personal it&rsquo;s add your terminal profile (~/.bashrc ~/.zshrc) pass as flag argument: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/authentication/",
+    "display": "Sdk/Go/Authentication",
+    "title": "Authentication",
+    "content": "overview authentication with the vela sdk responsibility of client initiating request. each request requires server address user token to be provided. sample below go program demonstrating how authenticate sdk: package main import &#34;github.com/go-vela/sdk-go/vela&#34; func main() // url full uri := &#34;http://localhost:8080&#34; access given you from tip: can get by using /login endpoint &#34;qwerty123&#34; instantiate new client, vela.newclient(url, nil) set mechanism for use our client.authentication.settokenauth(token) "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/usage/pipeline/steps/commands/",
+    "display": "Pipeline/Steps/Commands",
+    "title": "Commands",
+    "content": "the commands declaration for build step instructs vela what to execute inside container using local shell environment. version: &#34;1&#34; steps: name: image: golang commands: go test ./... above example, provided are converted simple script that looks like: #!/bin/sh set -e turn, executed as docker entrypoint container: run --entrypoint=build.sh "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/validate/",
+    "display": "Docs/Cli/Validate",
+    "title": "Validate",
+    "content": "command vela validate &lt;arguments...&gt; for more information, please run --help. permissions coming soon! sample section assumes you have already installed setup the cli. to install cli, review installation documentation. authentication request response &#34;.vela.yml&#34; valid "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/build/add/",
+    "display": "Api/Build/Add",
+    "title": "Add",
+    "content": "endpoint post /api/v1/repos/:org/:repo/builds parameters the following are used to configure endpoint: name description org of organization repo repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;author&#34;: &#34;octokitty&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;commit&#34;: &#34;48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;event&#34;: &#34;push&#34;, &#34;message&#34;: &#34;first commit...&#34;, &#34;ref&#34;: &#34;refs/heads/master&#34;, &#34;sender&#34;: &#34;source&#34;: &#34;https://github.com/github/octocat/commit/48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;title&#34;: &#34;push received from https://github.com/github/octocat&#34; curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds&#34; response &#34;id&#34;: 1, &#34;repo_id&#34;: &#34;number&#34;: &#34;parent&#34;: &#34;status&#34;: &#34;created&#34;, &#34;error&#34;: &#34;&#34;, &#34;enqueued&#34;: 1563474077, &#34;created&#34;: 1563474076, &#34;started&#34;: &#34;finished&#34;: 0, &#34;deploy&#34;: https://github.com/github/octocat&#34;, &#34;base_ref&#34;: &#34;host&#34;: &#34;company.localhost&#34;, &#34;runtime&#34;: &#34;docker&#34;, &#34;distribution&#34;: &#34;linux&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/hook/add/",
+    "display": "Api/Hook/Add",
+    "title": "Add",
+    "content": "endpoint post /api/v1/hooks/:org/:repo parameters the following are used to configure endpoint: name description org of organization repo repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;number&#34;: 1, &#34;source_id&#34;: &#34;c8da1302-07d6-11ea-882f-4893bca275b8&#34;, &#34;host&#34;: &#34;github.com&#34;, &#34;event&#34;: &#34;push&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;status&#34;: &#34;success&#34; curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/hooks/github/octocat&#34; response &#34;id&#34;: &#34;repo_id&#34;: &#34;build_id&#34;: &#34;created&#34;: &#34;1563474076&#34;, &#34;error&#34;: &#34;&#34;, &#34;success&#34;, &#34;link&#34;: &#34;&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/repo/add/",
+    "display": "Api/Repo/Add",
+    "title": "Add",
+    "content": "endpoint post /api/v1/repos permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. file &#34;owner&#34;: &#34;github&#34;, &#34;name&#34;: &#34;octocat&#34;, &#34;link&#34;: &#34;https://github.com/github/octocat&#34;, &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34; curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/repos&#34; response &#34;id&#34;: 1, &#34;user_id&#34;: &#34;org&#34;: &#34;full_name&#34;: &#34;github/octocat&#34;, &#34;https://github.com/github/octocat.git&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;timeout&#34;: 60, &#34;visibility&#34;: &#34;public&#34;, &#34;private&#34;: false, &#34;trusted&#34;: true, &#34;active&#34;: &#34;allow_pull&#34;: &#34;allow_push&#34;: &#34;allow_deploy&#34;: &#34;allow_tag&#34;: false "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/secret/add/",
+    "display": "Api/Secret/Add",
+    "title": "Add",
+    "content": "endpoint post /api/v1/secrets/:engine/:type/:org/:name parameters the following are used to configure endpoint: name description engine of type secret org organization repository team permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;name&#34;: &#34;foo&#34;, &#34;value&#34;: &#34;bar&#34;, &#34;images&#34;: [&#34;alpine&#34;], &#34;events&#34;: [&#34;push&#34;] curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/secrets/native/repo/github/octocat&#34; response &#34;id&#34;: 1, &#34;org&#34;: &#34;github&#34;, &#34;repo&#34;: &#34;octocat&#34;, &#34;team&#34;: &#34;&#34;, null, &#34;type&#34;: &#34;repo&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/service/add/",
+    "display": "Api/Service/Add",
+    "title": "Add",
+    "content": "endpoint post /api/v1/repos/:org/:repo/builds/:build/services parameters the following are used to configure endpoint: name description org of organization repo repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;number&#34;: 1, &#34;name&#34;: &#34;clone&#34; curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/services&#34; response &#34;id&#34;: &#34;build_id&#34;: &#34;repo_id&#34;: &#34;clone&#34;, &#34;status&#34;: &#34;success&#34;, &#34;error&#34;: &#34;&#34;, &#34;exit_code&#34;: 0, &#34;created&#34;: 1563475419, &#34;started&#34;: 1563475420, &#34;finished&#34;: 1563475421 "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/step/add/",
+    "display": "Api/Step/Add",
+    "title": "Add",
+    "content": "endpoint post /api/v1/repos/:org/:repo/builds/:build/steps parameters the following are used to configure endpoint: name description org of organization repo repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;number&#34;: 1, &#34;name&#34;: &#34;clone&#34; curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/steps&#34; response &#34;id&#34;: &#34;build_id&#34;: &#34;repo_id&#34;: &#34;clone&#34;, &#34;status&#34;: &#34;success&#34;, &#34;error&#34;: &#34;&#34;, &#34;exit_code&#34;: 0, &#34;created&#34;: 1563475419, &#34;started&#34;: &#34;finished&#34;: &#34;host&#34;: &#34;company.localhost&#34;, &#34;runtime&#34;: &#34;docker&#34;, &#34;distribution&#34;: &#34;linux&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/user/add/",
+    "display": "Api/User/Add",
+    "title": "Add",
+    "content": "endpoint post /api/v1/users permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. file &#34;name&#34;: &#34;octokitty&#34;, &#34;favorites&#34;: [&#34;github/octocat&#34;], &#34;active&#34;: true, &#34;admin&#34;: false curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/users&#34; response &#34;id&#34;: 1, &#34;token&#34;: null, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/repo/add/",
+    "display": "Cli/Repo/Add",
+    "title": "Add",
+    "content": "command vela add repo &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization repo_org repository repo_name link full url repo_link clone repo_clone timeout max time allowed per build repo_timeout private makes repo_private trusted repo_trusted event events trigger repo_event output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat response &#34;github/octocat&#34; was created "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/secret/add/",
+    "display": "Cli/Secret/Add",
+    "title": "Add",
+    "content": "command vela add secret &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. note on special characters: certain characters may require to encapsulate your with &quot; '. have be double escaped parameters the following are used configure command: name description environment engine of secret_engine type secret_type org organization secret_org repo repository secret_repo team secret_team secret_name value secret_value image limit specific image(s) secret_images event event(s) secret_events filename secret(s) from file n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes already installed setup cli. install cli, installation authentication request --engine native --type --org github --repo octocat --name foo --value bar response &#34;foo&#34; was added advanced input creating single-line multi-line using symbol. syntax @/path/to/file example @$home/tmp/secret.txt secrets multiple parameter. -f secret.yml single yaml document ---metadata:api_version:v1engine:nativesecrets:-org:octocatrepo:githubname:foovalue:bartype:repoimages:-golang:latestevents:-push-pull_request-org:githubteam:octokittiesname:foo1value:&#34;@/path/to/file/bar1&#34;type:sharedimages:-golang:latestevents:-push-pull_request ---metadata:api_version:v1engine:nativesecrets:-org:githubrepo:octocatname:foovalue:bartype:repoimages:-golang:latestevents:-push-pull_request---metadata:api_version:v1engine:vaultsecrets:-org:githubteam:octokittiesname:foo1value:&#34;@/path/to/file/bar1&#34;type:sharedimages:-golang:latestevents:-push-pull_request "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/build/add/",
+    "display": "Go/Build/Add",
+    "title": "Add",
+    "content": "function func (svc *buildservice) add(org, repo string, *library.build) (*library.build, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: name description org of organization repository information on build permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/repo/add/",
+    "display": "Go/Repo/Add",
+    "title": "Add",
+    "content": "function func (svc *reposervice) add(r *library.repo) (*library.repo, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: name description information on repo permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example of here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/secret/add/",
+    "display": "Go/Secret/Add",
+    "title": "Add",
+    "content": "function func (svc *secretservice) add(engine, stype, org, name string, *library.secret) (*library.secret, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: description engine of secret stype type org organization repository team information on permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/service/add/",
+    "display": "Go/Service/Add",
+    "title": "Add",
+    "content": "function func (svc *svcservice) add(org, repo string, build int, *library.service) (*library.service, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: name description org of organization repository number information on service permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/step/add/",
+    "display": "Go/Step/Add",
+    "title": "Add",
+    "content": "function func (svc *stepservice) add(org, repo string, build int, *library.step) (*library.step, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: name description org of organization repository number information on step permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/registry/artifactory/",
+    "display": "Plugins/Registry/Artifactory",
+    "title": "Artifactory",
+    "content": "overview plugin enables the ability to manage artifacts artifactory vela pipeline. source code: https://github.com/go-vela/vela-artifactory registry: https://hub.docker.com/r/target/vela-artifactory usage sample of copying an artifact: steps:-name:copy_artifactsimage:target/vela-artifactory:v0.1.0pull:trueparameters:action:copypath:libs-snapshot-local/foo.txttarget:libs-snapshot-local/bar.txturl:http://localhost:8081/artifactory deleting steps:-name:delete_artifactsimage:target/vela-artifactory:v0.1.0pull:trueparameters:action:deletepath:libs-snapshot-local/foo.txturl:http://localhost:8081/artifactory setting properties on steps:-name:set_properties_artifactsimage:target/vela-artifactory:v0.1.0pull:trueparameters:action:set-proppath:libs-snapshot-local/foo.txtprops:-name:singlevalue:foo-name:multiplevalues:-bar-bazurl:http://localhost:8081/artifactory uploading steps:-name:upload_artifactsimage:target/vela-artifactory:v0.1.0pull:trueparameters:action:uploadpath:libs-snapshot-local/sources:-foo.txt-target/*.jar-dist/**/*.jsurl:http://localhost:8081/artifactory pretending upload steps: name: upload_artifacts image: target/vela-artifactory:v0.1.0 pull: true parameters: action: dry_run: path: libs-snapshot-local/ sources: foo.txt target/*.jar dist/**/*.js url: http://localhost:8081/artifactory secrets users should refrain from configuring sensitive information their pipeline plain text. can use substitute values at runtime: copy_artifacts secrets: artifactory_username, artifactory_password copy libs-snapshot-local/foo.txt target: libs-snapshot-local/bar.txt username: octocat password: supersecretpassword parameters following are used configure name description required default action perform against n/a api_key api key for communication with false dry_run log_level set log level info password path source/target artifact(s) url instance communicate username user flat removing directory hierarchy recursive sub-directories target delete set-prop props include_dirs including regexp reading sources as regular expression list template coming soon! troubleshooting below common problems how solve them: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/tutorials/bash/",
+    "display": "Plugins/Tutorials/Bash",
+    "title": "Bash",
+    "content": "we recommend reviewing docker&rsquo;s best practices before attempting to create custom plugin. that all plugins be placed inside scratch image. overview from bash documentation: the gnu project&rsquo;s shell. bourne an sh-compatible shell incorporates useful features korn (ksh) (csh). it intended conform ieee posix p1003.2/iso 9945.2 tools standard. offers functional improvements over sh for both programming interactive use. addition, most scripts can run by without modification. code plugin using bash, we&rsquo;ll need first decide what task want accomplish. example, we&rsquo;re going script runs curl command provided input: #!/usr/bin/env import method parameter environment method=${parameter_method} body body=${parameter_body} url url=${parameter_url} send request input -x &#34;${method}&#34; -d &#34;${body}&#34; &#34;${url}&#34; example of section go-vela/vela-tutorials repository. image once have executable needed accomplish our plugin&rsquo;s task, dockerfile produce should contain setup when executed: fromalpinerun apk add --update --no-cache ca-certificates curlcopy vela-sample.sh /bin/vela-sample.shentrypoint [&#34;bash&#34;, &#34;/bin/vela-sample.sh&#34;] target/vela-sample docker publishing order pipeline, make sure build publish registry: -t target/vela-sample:bash push has added benefit enabling others community consume your plugin! troubleshooting verify performs desired executed locally via line: --rm -e parameter_body=&#34;this sample vela written with bash&#34; parameter_method=&#34;post&#34; parameter_url=&#34;http://vela.localhost.com&#34; usage after registry, referenced pipeline: version:&#34;1&#34;steps:-name:samplebashpluginimage:target/vela-sample:bashpull:trueparameters:url:http://vela.localhost.commethod:postbody:| "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/admin/build/",
+    "display": "Api/Admin/Build",
+    "title": "Build",
+    "content": "endpoint get /api/v1/admin/builds permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/admin/builds&#34; response &#34;id&#34;: 2, &#34;repo_id&#34;: &#34;number&#34;: 1, &#34;parent&#34;: &#34;event&#34;: &#34;push&#34;, &#34;status&#34;: &#34;running&#34;, &#34;error&#34;: &#34;&#34;, &#34;enqueued&#34;: 1563474204, &#34;created&#34;: &#34;started&#34;: &#34;finished&#34;: 0, &#34;deploy&#34;: &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;source&#34;: &#34;https://github.com/github/octocat/commit/48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;title&#34;: &#34;push received from https://github.com/github/octocat&#34;, &#34;message&#34;: &#34;second commit...&#34;, &#34;commit&#34;: &#34;48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;sender&#34;: &#34;octokitty&#34;, &#34;author&#34;: &#34;branch&#34;: &#34;master&#34;, &#34;ref&#34;: &#34;refs/heads/master&#34;, &#34;base_ref&#34;: &#34;host&#34;: &#34;ed95dcc0687c&#34;, &#34;runtime&#34;: &#34;distribution&#34;: &#34;&#34; }, 1563474077, 1563474076, &#34;first &#34;82823eb770b0&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/system/build/",
+    "display": "Concepts/System/Build",
+    "title": "Build",
+    "content": "the build component part of core system components for vela. defined as single, ephemeral execution pipeline. comprised one many services steps that contain instructions to execute from typically created hook triggered by repo source control provider. fields following make up component: name type description author string commit branch base_ref sha clone full url int64 unix timestamp when was deploy environment targeted deployment distribution operating executed on email enqueued published queue error message received during time event finished completed host hostname id unique identifier link navigatable number int parent previous ref reference repo_id runtime with sender started status signifies end condition title stored configured vela backend builds table. references api cli sdk go "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/repo/chown/",
+    "display": "Api/Repo/Chown",
+    "title": "Chown",
+    "content": "endpoint patch /api/v1/repos/:org/:repo/chown parameters the following are used to configure endpoint: name description org of organization repo repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/chown&#34; response github/octocat changed owner "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/repo/chown/",
+    "display": "Cli/Repo/Chown",
+    "title": "Chown",
+    "content": "command vela chown repo &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization repo_org repository repo_name output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat response &#34;github/octocat&#34; changed owner "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/repo/chown/",
+    "display": "Go/Repo/Chown",
+    "title": "Chown",
+    "content": "function func (svc *reposervice) chown(org, repo string) (*string, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: name description org of organization repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/commands/",
+    "display": "Pipeline/Steps/Commands",
+    "title": "Commands",
+    "content": "the commands component part of step for vela. declaration allows you to provide execution instructions run inside container. syntax following an example valid component: version: &#34;1&#34; metadata: template: false steps: name: test image: golang commands: go ./... build pipeline will execute first, then step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/infrastructure/server/compiler/",
+    "display": "Infrastructure/Server/Compiler",
+    "title": "Compiler",
+    "content": "the compiler component one of server components for vela. defines system vela uses transforming pipeline into an executable representation worker. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/infrastructure/server/database/",
+    "display": "Infrastructure/Server/Database",
+    "title": "Database",
+    "content": "the database component one of server components for vela. defines system vela uses storing its data at rest. an organized collection information necessary platform to operate. configuration following options are used configure component: name environment description database.driver database_driver type client control operate database.config database_config full connection string database.connection.open database_connection_open total number open connections database.connection.idle database_connection_idle idle database.connection.life database_connection_life amount time reusable all available support vela_* prefixes variables. example: vela_database_driver drivers documentation sqlite3 sqlite storage https://www.sqlite.org postgres postgresql https://www.postgresql.org limitations these known archives by default, does not perform any archival data. currently, functionality considered out scope project should be responsibility admins installation. we recommend reviewing third party tools provided vendor achieve functionality. backups creation create your system. migration handle migrations. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/detach/",
+    "display": "Pipeline/Steps/Detach",
+    "title": "Detach",
+    "content": "the detach component part of step for vela. declaration allows you to run container detached (headless) state. syntax following an example valid component: version: &#34;1&#34; metadata: template: false steps: name: test image: golang commands: go ./... build detach: true ./main -http=:8080 pipeline will execute first, then finally step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/registry/docker/",
+    "display": "Plugins/Registry/Docker",
+    "title": "Docker",
+    "content": "overview plugin enables the ability to build publish docker images vela pipeline. source code: https://github.com/go-vela/vela-docker registry: https://hub.docker.com/r/target/vela-docker usage sample of building publishing an image: steps:-name:publish_hello-worldimage:target/vela-docker:v0.1.0pull:trueparameters:registry:index.docker.iorepo:index.docker.io/octocat/hello-world image without publishing: steps: name: publish_hello-world target/vela-docker:v0.1.0 pull: true parameters: dry_run: index.docker.io repo: index.docker.io/octocat/hello-world with custom tags: latest foobar automatic auto_tag: arguments: build_args: foo=bar caching: cache: cache_repo: secrets users should refrain from configuring sensitive information their pipeline plain text. can use substitute values at runtime: secrets: docker_username, docker_password username: octocat password: supersecretpassword parameters injects several variables, by default, that load automatically. following are used configure name description required default auto_tag tagging automatically false build_args variables passed build-time n/a cache enable caching layers cache_repo specific repo for context path dockerfile file dry_run event generated set log_level log level info password communication registry repository sha sha-1 hash commit tag tags unique username user template coming soon! troubleshooting below list common problems how solve them: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/registry/downstream/",
+    "display": "Plugins/Registry/Downstream",
+    "title": "Downstream",
+    "content": "overview plugin enables the ability to trigger builds for other repos vela pipeline. source code: https://github.com/go-vela/vela-downstream registry: https://hub.docker.com/r/target/vela-downstream usage sample of triggering downstream build: steps:-name:trigger_hello-worldimage:target/vela-downstream:v0.1.0pull:trueparameters:branch:masterrepos:-octocat/hello-worldserver:https://vela-server.localhost build multiple repos: steps: name: trigger_multiple trigger_hello-world image: target/vela-downstream:v0.1.0 pull: true parameters: branch: master octocat/hello-world go-vela/hello-world server: https://vela-server.localhost with different branches: use symbol at end org/repo provide unique branch per repo. octocat/hello-world@test go-vela/hello-world@stage secrets users should refrain from configuring sensitive information their pipeline plain text. can substitute values runtime: secrets: downstream_token token: supersecretvelatoken parameters following are used configure name description required default on log_level set log level info list names n/a server communicate token communication template coming soon! troubleshooting below common problems how solve them: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/secrets/engine/",
+    "display": "Pipeline/Secrets/Engine",
+    "title": "Engine",
+    "content": "the engine component part of secret for vela. declaration allows you to provide name storage backend fetch from. has default value native. options following are available configure component: description native uses vela database vault hashicorp instance designed store secrets database. instance. information refer vault&rsquo;s documentation. currently not supported. using coming soon! syntax an example valid version: &#34;1&#34; metadata: template: false secrets: name: username engine: key: type: repo password steps: test image: golang username, commands: echo &#34;machine github.com&#34; &gt; .netrc &#34;login ${username}&#34; &#34;password ${password}&#34; go ./... pipeline will allow be referenced: also add environment variables step: username=&lt;value&gt; password=&lt;value&gt; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/services/entrypoint/",
+    "display": "Pipeline/Services/Entrypoint",
+    "title": "Entrypoint",
+    "content": "the entrypoint component part of service for vela. declaration allows you to provide command execute inside container. syntax following an example valid component: version: &#34;1&#34; metadata: template: false services: name: postgres image: postgres:12 entrypoint: &#34;/docker-entrypoint.sh&#34; steps: test golang environment: database_driver: database_config: &#39;postgres://postgres@postgres:5432/postgres?sslmode=disable&#39; commands: go ./... pipeline will start first, then run step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/entrypoint/",
+    "display": "Pipeline/Steps/Entrypoint",
+    "title": "Entrypoint",
+    "content": "the entrypoint component part of step for vela. declaration allows you to provide command execute inside container. syntax following an example valid component: version: &#34;1&#34; metadata: template: false steps: name: test image: golang entrypoint: /usr/local/go/bin/go commands: go ./... build pipeline will first, then run step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/services/environment/",
+    "display": "Pipeline/Services/Environment",
+    "title": "Environment",
+    "content": "the environment component part of service for vela. declaration allows you to provide variables injected into container environment. syntax following an example valid component: version: &#34;1&#34; metadata: template: false services: name: postgres image: postgres:12 environment: postgres_db: postgres_user: steps: test golang database_driver: database_config: &#39;postgres://example@postgres:5432/example?sslmode=disable&#39; commands: go ./... pipeline will start first, then run step. defaults are every service: build key value explanation build_author octocat author from source commit build_author_email octocat@github.com email build_branch master branch build_channel vela queue channel was published build_commit 7fd1a60b01f91b314f59955a4e4d4e80d8edf11d sha build_created 1556720958 unix timestamp representing creation time build_enqueued 1556730001 enqueue build_event push webhook event that triggered build_finished 1556730045 completion build_host vela-worker-1 fully qualified domain name worker executed on build_link https://vela-server.localhost/octocat/hello-world/1 link ui build_message new line at end file. message build_number number build_parent previous build_ref refs/heads/master reference build_started build_source https://github.com/octocat/hello-world/commit/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d build_title merge pull request #6 octocat/patch-1 title build_workspace /home/octocat_hello-world_1 working directory build_tag v1.0.0 tag populated not if server configured headless (no ui). only during events. true vela_addr vela-server.localhost vela_channel vela_database database connected vela_host vela_queue redis vela_runtime docker runtime vela_source github vela_version v0.1.0 version vela_workspace ci enabled repository repository_branch default repository_clone https://github.com/octocat/hello-world.git clone url repository_full_name octocat/hello-world full repository_link https://github.com/octocat/hello-world direct repository_name hello-world repository_org org repository_private privacy setting repository_timeout 60 timeout repository_trusted trusted "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/environment/",
+    "display": "Pipeline/Steps/Environment",
+    "title": "Environment",
+    "content": "the environment component part of step for vela. declaration allows you to provide variables injected into container environment. syntax following an example valid component: version: &#34;1&#34; metadata: template: false steps: name: test image: golang environment: cgo_enabled: &#39;0&#39; goos: linux goarch: amd64 commands: go ./... build pipeline will execute first, then run step. defaults are every step: key value explanation build_author octocat author from source commit build_author_email octocat@github.com email build_branch master branch build_channel vela queue channel was published build_commit 7fd1a60b01f91b314f59955a4e4d4e80d8edf11d sha build_created 1556720958 unix timestamp representing creation time build_enqueued 1556730001 enqueue build_event push webhook event that triggered build_finished 1556730045 completion build_host vela-worker-1 fully qualified domain name worker executed on build_link https://vela-server.localhost/octocat/hello-world/1 link ui build_message new line at end file. message build_number number build_parent previous build_ref refs/heads/master reference build_started start build_source https://github.com/octocat/hello-world/commit/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d build_title merge pull request #6 octocat/patch-1 title build_workspace /home/octocat_hello-world_1 working directory build_tag v1.0.0 tag populated not if server configured headless (no ui). only during events. true vela_addr vela-server.localhost vela_channel vela_database postgres database connected vela_host vela_queue redis vela_runtime docker runtime vela_source github vela_version v0.1.0 version vela_workspace ci enabled repository repository_branch default repository_clone https://github.com/octocat/hello-world.git clone url repository_full_name octocat/hello-world full repository_link https://github.com/octocat/hello-world direct repository_name hello-world repository_org org repository_private privacy setting repository_timeout 60 timeout repository_trusted trusted "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/infrastructure/worker/executor/",
+    "display": "Infrastructure/Worker/Executor",
+    "title": "Executor",
+    "content": "the executor component one of worker components for vela. coming soon! "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/config/generate/",
+    "display": "Cli/Config/Generate",
+    "title": "Generate",
+    "content": "command vela generate config &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment addr url server n/a token user from api-version api version log-level change cli logging level org of organization repo repository secret-engine secret backend secret-type type permissions coming soon! sample section assumes have already installed setup cli. install cli, please review installation documentation. authentication request --addr https://vela-server.localhost --token qwerty123 response addr: token: api-version: v1 log-level: info "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/pipeline/generate/",
+    "display": "Cli/Pipeline/Generate",
+    "title": "Generate",
+    "content": "command vela generate pipe &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment type language of pipeline n/a path output stages enable generating with permissions coming soon! sample section assumes have already installed setup cli. install cli, please review installation documentation. authentication request response &#34;.vela.yml&#34; go generated "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/build/get/",
+    "display": "Api/Build/Get",
+    "title": "Get",
+    "content": "endpoint get /api/v1/repos/:org/:repo/builds parameters the following are used to configure endpoint: name description org of organization repo repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds&#34; response &#34;id&#34;: 2, &#34;repo_id&#34;: 1, &#34;number&#34;: &#34;parent&#34;: &#34;event&#34;: &#34;push&#34;, &#34;status&#34;: &#34;running&#34;, &#34;error&#34;: &#34;&#34;, &#34;enqueued&#34;: 1563474204, &#34;created&#34;: &#34;started&#34;: &#34;finished&#34;: 0, &#34;deploy&#34;: &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;source&#34;: &#34;https://github.com/github/octocat/commit/48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;title&#34;: &#34;push received from https://github.com/github/octocat&#34;, &#34;message&#34;: &#34;second commit...&#34;, &#34;commit&#34;: &#34;48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;sender&#34;: &#34;octokitty&#34;, &#34;author&#34;: &#34;branch&#34;: &#34;master&#34;, &#34;ref&#34;: &#34;refs/heads/master&#34;, &#34;base_ref&#34;: &#34;host&#34;: &#34;ed95dcc0687c&#34;, &#34;runtime&#34;: &#34;distribution&#34;: &#34;&#34; }, 1563474077, 1563474076, &#34;first &#34;82823eb770b0&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/hook/get/",
+    "display": "Api/Hook/Get",
+    "title": "Get",
+    "content": "endpoint get /api/v1/hooks/:org/:repo parameters the following are used to configure endpoint: name description org of organization repo repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/hooks/github/octocat&#34; response &#34;id&#34;: 2, &#34;repo_id&#34;: 1, &#34;build_id&#34;: &#34;number&#34;: &#34;source_id&#34;: &#34;c8da1302-07d6-11ea-882f-4893bca275b8&#34;, &#34;created&#34;: &#34;1563474076&#34;, &#34;host&#34;: &#34;github.com&#34;, &#34;event&#34;: &#34;push&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;error&#34;: &#34;&#34;, &#34;status&#34;: &#34;success&#34;, &#34;link&#34;: &#34;&#34; }, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/repo/get/",
+    "display": "Api/Repo/Get",
+    "title": "Get",
+    "content": "endpoint get /api/v1/repos permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos&#34; response &#34;id&#34;: 1, &#34;user_id&#34;: &#34;org&#34;: &#34;github&#34;, &#34;name&#34;: &#34;octocat&#34;, &#34;full_name&#34;: &#34;github/octocat&#34;, &#34;link&#34;: &#34;https://github.com/github/octocat&#34;, &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;timeout&#34;: 60, &#34;visibility&#34;: &#34;public&#34;, &#34;private&#34;: false, &#34;trusted&#34;: true, &#34;active&#34;: &#34;allow_pull&#34;: &#34;allow_push&#34;: &#34;allow_deploy&#34;: &#34;allow_tag&#34;: false }, 2, &#34;octokitty&#34;, &#34;github/octokitty&#34;, &#34;https://github.com/github/octokitty&#34;, &#34;https://github.com/github/octokitty.git&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/secret/get/",
+    "display": "Api/Secret/Get",
+    "title": "Get",
+    "content": "endpoint get /api/v1/secrets/:engine/:type/:org/:name parameters the following are used to configure endpoint: name description engine of type secret org organization repository team permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/secrets/native/repo/github/octocat&#34; response &#34;id&#34;: 1, &#34;org&#34;: &#34;github&#34;, &#34;repo&#34;: &#34;octocat&#34;, &#34;team&#34;: &#34;&#34;, &#34;name&#34;: &#34;foo&#34;, &#34;value&#34;: null, &#34;type&#34;: &#34;repo&#34;, &#34;images&#34;: [&#34;alpine&#34;], &#34;events&#34;: [&#34;push&#34;] }, 2, &#34;bar&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/service/get/",
+    "display": "Api/Service/Get",
+    "title": "Get",
+    "content": "endpoint get /api/v1/repos/:org/:repo/builds/:build/services parameters the following are used to configure endpoint: name description org of organization repo repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/services&#34; response &#34;id&#34;: 2, &#34;build_id&#34;: 1, &#34;repo_id&#34;: &#34;number&#34;: &#34;name&#34;: &#34;build&#34;, &#34;status&#34;: &#34;success&#34;, &#34;error&#34;: &#34;&#34;, &#34;exit_code&#34;: 0, &#34;created&#34;: 1563475419, &#34;started&#34;: 1563475420, &#34;finished&#34;: 1563475421 }, &#34;clone&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/step/get/",
+    "display": "Api/Step/Get",
+    "title": "Get",
+    "content": "endpoint get /api/v1/repos/:org/:repo/builds/:build/steps parameters the following are used to configure endpoint: name description org of organization repo repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/steps&#34; response &#34;id&#34;: 2, &#34;build_id&#34;: 1, &#34;repo_id&#34;: &#34;number&#34;: &#34;name&#34;: &#34;build&#34;, &#34;status&#34;: &#34;success&#34;, &#34;error&#34;: &#34;&#34;, &#34;exit_code&#34;: 0, &#34;created&#34;: 1563475419, &#34;started&#34;: &#34;finished&#34;: &#34;host&#34;: &#34;company.localhost&#34;, &#34;runtime&#34;: &#34;docker&#34;, &#34;distribution&#34;: &#34;linux&#34; }, &#34;clone&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/user/get/",
+    "display": "Api/User/Get",
+    "title": "Get",
+    "content": "endpoint get /api/v1/users permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/users&#34; response &#34;id&#34;: 2, &#34;name&#34;: &#34;octocat&#34;, &#34;token&#34;: null, &#34;favorites&#34;: [&#34;github/octocat&#34;], &#34;active&#34;: true, &#34;admin&#34;: false }, 1, &#34;octokitty&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/build/get/",
+    "display": "Cli/Build/Get",
+    "title": "Get",
+    "content": "command vela get build &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization build_org repo repository build_repo output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat response number status event branch duration failure push master 45s 50s success 54s 55s pending ... "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/repo/get/",
+    "display": "Cli/Repo/Get",
+    "title": "Get",
+    "content": "command vela get repo &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment output format n/a permissions coming soon! sample section assumes have already installed setup cli. install cli, please review installation documentation. authentication request response org/repo status events visibility branch github/octocat true push,pull_request public master "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/secret/get/",
+    "display": "Cli/Secret/Get",
+    "title": "Get",
+    "content": "command vela get secret &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment engine of secret_engine type secret_type org organization secret_org repo repository secret_repo team secret_team output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --engine native --type --org github --repo octocat response events foo github/octocat push,pull_request "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/service/get/",
+    "display": "Cli/Service/Get",
+    "title": "Get",
+    "content": "command vela get service &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization build_org repo repository build_repo build number build_number output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat --build response status runtime duration publish failure 1s success 17s test 10s clone 2s "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/step/get/",
+    "display": "Cli/Step/Get",
+    "title": "Get",
+    "content": "command vela get step &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization build_org repo repository build_repo build number build_number output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat --build-number response status runtime duration publish failure 1s success 17s test 10s clone 2s "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/build/get/",
+    "display": "Go/Build/Get",
+    "title": "Get",
+    "content": "function func (svc *buildservice) getall(org, repo string, opt *listoptions) (*[]library.build, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: name description org of organization repository options listing builds permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/repo/get/",
+    "display": "Go/Repo/Get",
+    "title": "Get",
+    "content": "function func (svc *reposervice) getall(opt *listoptions) (*[]library.repo, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: name description opt options listing repos permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example of here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/secret/get/",
+    "display": "Go/Secret/Get",
+    "title": "Get",
+    "content": "function func (svc *secretservice) getall(engine, stype, org, name string, opt *listoptions) (*[]library.secret, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: description engine of secret stype type org organization repository team options listing builds permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/service/get/",
+    "display": "Go/Service/Get",
+    "title": "Get",
+    "content": "function func (svc *svcservice) getall(org, repo string, build int, opt *listoptions) (*[]library.service, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: name description org of organization repository number options listing services permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/step/get/",
+    "display": "Go/Step/Get",
+    "title": "Get",
+    "content": "function func (svc *stepservice) getall(org, repo string, build int, opt *listoptions) (*[]library.step, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: name description org of organization repository number options listing steps permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/registry/git/",
+    "display": "Plugins/Registry/Git",
+    "title": "Git",
+    "content": "overview plugin automatically injected into every pipeline for the source repository. enables ability to clone repositories vela build workspace. code: https://github.com/go-vela/vela-git registry: https://hub.docker.com/r/target/vela-git usage sample of cloning repository: steps:-name:clone_hello-worldimage:target/vela-git:v0.3.0pull:trueparameters:path:hello-worldref:refs/heads/masterremote:https://github.com/octocat/hello-world.gitsha:7fd1a60b01f91b314f59955a4e4d4e80d8edf11d repository with submodules: steps: name: clone_hello-world image: target/vela-git:v0.3.0 pull: true parameters: path: hello-world ref: refs/heads/master remote: https://github.com/octocat/hello-world.git sha: 7fd1a60b01f91b314f59955a4e4d4e80d8edf11d tags: secrets users should refrain from configuring sensitive information their plain text. can use substitute values at runtime: secrets: git_username, git_password netrc_username: octocat netrc_password: supersecretpassword /home/octocat_hello-world_1 parameters injects several variables, by default, that load automatically. following are used configure name description required default log_level set log level info netrc_machine machine communicate github.com netrc_password password authentication netrc_username user path local ref reference generated commit remote full url sha sha-1 hash submodules fetching false tags template coming soon! troubleshooting below list common problems how solve them: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/tutorials/go/",
+    "display": "Plugins/Tutorials/Go",
+    "title": "Go",
+    "content": "we recommend reviewing docker&rsquo;s best practices before attempting to create custom plugin. that all plugins be placed inside scratch image. overview from go documentation: an open source programming language makes it easy build simple, reliable, efficient software. code plugin using go, we&rsquo;ll need first decide what task want accomplish. for example, we&rsquo;re going program http request the provided input: package main import &#34;fmt&#34; &#34;net/http&#34; &#34;os&#34; &#34;strings&#34; func main() // method parameter environment := os.getenv(&#34;parameter_method&#34;) body os.getenv(&#34;parameter_body&#34;) url os.getenv(&#34;parameter_url&#34;) payload strings.newreader(body) new input request, err http.newrequest(method, url, payload) if != nil fmt.println(err) os.exit(1) send capture response response, http.defaultclient.do(request) output fmt.println(response) example of section go-vela/vela-tutorials repository. executable now have accomplish our plugin&rsquo;s task, compile produce binary target platform: goos=linux goarch=amd64 cgo_enabled=0 -o vela-sample please ensure compiled right platform. it&rsquo;s not, may fail properly run unclear error messages. image once needed dockerfile should contain setup when executed: fromgolang:alpinerun apk add --update --no-cache ca-certificatescopy /bin/vela-sampleentrypoint [&#34;/bin/vela-sample&#34;] target/vela-sample docker publishing order pipeline, make sure publish registry: -t target/vela-sample:go push has added benefit enabling others community consume your plugin! troubleshooting verify performs desired can executed locally via command line: --rm -e parameter_body=&#34;this sample vela written with go&#34; parameter_method=&#34;post&#34; parameter_url=&#34;http://vela.localhost.com&#34; usage after registry, referenced pipeline: version:&#34;1&#34;steps:-name:samplegopluginimage:target/vela-sample:gopull:trueparameters:url:http://vela.localhost.commethod:postbody:| "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/admin/hook/",
+    "display": "Api/Admin/Hook",
+    "title": "Hook",
+    "content": "endpoint get /api/v1/admin/hooks permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/admin/hooks&#34; response &#34;id&#34;: 2, &#34;repo_id&#34;: &#34;build_id&#34;: &#34;number&#34;: 1, &#34;source_id&#34;: &#34;c8da1302-07d6-11ea-882f-4893bca275b8&#34;, &#34;created&#34;: &#34;1563474076&#34;, &#34;host&#34;: &#34;github.com&#34;, &#34;event&#34;: &#34;push&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;error&#34;: &#34;&#34;, &#34;status&#34;: &#34;success&#34;, &#34;link&#34;: &#34;&#34; }, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/system/hook/",
+    "display": "Concepts/System/Hook",
+    "title": "Hook",
+    "content": "the hook component part of core system components for vela. defined as single, webhook object received from repo source control provider prompting vela to perform an action. most cases, processing involves fetching pipeline triggering build. github&rsquo;s documentation: webhooks provide way notifications be delivered external web server whenever certain actions occur on repository organization. fields following make up component: name type description branch string commit that triggered build_id int64 unique identifier build created unix timestamp when was error message during event host hostname id link full navigatable url number int repo_id status signifies end condition source_id stored configured backend hooks table. references api cli sdk go "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/services/image/",
+    "display": "Pipeline/Services/Image",
+    "title": "Image",
+    "content": "the image component part of service for vela. declaration allows you to provide docker used create ephemeral container. all vela services will require an be provided. examples any valid publicly accessible registry can image:golangimage:golang:latestimage:golang:1.12image:library/golang:1.12image:index.docker.io/library/golangimage:index.docker.io/library/golang:1.12 above images would pull from golang repository. syntax following example component: version: &#34;1&#34; metadata: template: false services: name: postgres image: postgres:12 pull: true steps: test environment: database_driver: database_config: &#39;postgres://postgres@postgres:5432/postgres?sslmode=disable&#39; commands: go ./... pipeline start first, then run step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/image/",
+    "display": "Pipeline/Steps/Image",
+    "title": "Image",
+    "content": "the image component part of step for vela. declaration allows you to provide docker used create ephemeral container. all vela steps will require an be provided. options any valid publicly accessible registry can image:golangimage:golang:latestimage:golang:1.12image:library/golang:1.12image:index.docker.io/library/golangimage:index.docker.io/library/golang:1.12 above images would pull from golang repository. syntax following example component: version: &#34;1&#34; metadata: template: false steps: name: test image: commands: go ./... build pipeline execute first, then run step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/secrets/key/",
+    "display": "Pipeline/Secrets/Key",
+    "title": "Key",
+    "content": "the key component part of secret for vela. declaration allows you to provide path fetch from storage backend. inherits default value name. syntax following an example valid component: version: &#34;1&#34; metadata: template: false secrets: name: username engine: native key: type: repo password steps: test image: golang username, commands: echo &#34;machine github.com&#34; &gt; .netrc &#34;login ${username}&#34; &#34;password ${password}&#34; go ./... pipeline will allow secrets be referenced: also add environment variables step: username=&lt;value&gt; password=&lt;value&gt; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/registry/kubernetes/",
+    "display": "Plugins/Registry/Kubernetes",
+    "title": "Kubernetes",
+    "content": "overview plugin enables the ability to manage resources kubernetes vela pipeline. source code: https://github.com/go-vela/vela-kubernetes registry: https://hub.docker.com/r/target/vela-kubernetes usage sample of applying files: steps:-name:kubernetesimage:target/vela-kubernetes:v0.1.0pull:trueparameters:action:applyfiles:[kubernetes/common,kubernetes/dev/deploy.yml] pretending apply steps: name: image: target/vela-kubernetes:v0.1.0 pull: true parameters: action: dry_run: kubernetes/common, kubernetes/dev/deploy.yml patching containers steps:-name:kubernetesimage:target/vela-kubernetes:v0.1.0pull:trueparameters:action:patchfiles:[kubernetes/common,kubernetes/dev/deploy.yml]containers:-name:sampleimage:alpine:latest patch containers: alpine:latest watching status resources: steps:-name:kubernetesimage:target/vela-kubernetes:v0.1.0pull:trueparameters:action:statusstatuses:[sample] secrets users should refrain from configuring sensitive information their pipeline plain text. can use substitute values at runtime: secrets: kube_config config: --- apiversion: v1 kind: config parameters following are used configure name description required default action perform against n/a cluster configuration file false context for communication with log_level set log level info namespace path by dry_run files list directories output statuses watch on timeout total time allowed 5m until resource completes template coming soon! troubleshooting below common problems how solve them: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/system/log/",
+    "display": "Concepts/System/Log",
+    "title": "Log",
+    "content": "the log component part of core system components for vela. defined as sequence records about actions performed by worker build. fields following make up component: name type description build_id int64 unique identifier build entry data []byte raw from id repo_id repo that triggered service_id service step_id step stored configured vela backend logs table. references api cli sdk go "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/build/logs/",
+    "display": "Api/Build/Logs",
+    "title": "Logs",
+    "content": "endpoint get /api/v1/repos/:org/:repo/builds/:build/logs parameters the following are used to configure endpoint: name description org of organization repo repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/logs&#34; response &#34;id&#34;: 1, &#34;step_id&#34;: &#34;build_id&#34;: &#34;repo_id&#34;: &#34;data&#34;: &#34;sgvsbg8sifdvcmxkiq==&#34; }, 2, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/service/logs/",
+    "display": "Api/Service/Logs",
+    "title": "Logs",
+    "content": "endpoint get /api/v1/repos/:org/:repo/builds/:build/services/:service/logs parameters the following are used to configure endpoint: name description org of organization repo repository build number service permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/services/1/logs&#34; response &#34;id&#34;: 1, &#34;build_id&#34;: &#34;repo_id&#34;: &#34;service_id&#34;: &#34;data&#34;: &#34;sgvsbg8sifdvcmxkiq==&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/step/logs/",
+    "display": "Api/Step/Logs",
+    "title": "Logs",
+    "content": "endpoint get /api/v1/repos/:org/:repo/builds/:build/steps/:step/logs parameters the following are used to configure endpoint: name description org of organization repo repository build number step permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/steps/1/logs&#34; response &#34;id&#34;: 1, &#34;build_id&#34;: &#34;repo_id&#34;: &#34;step_id&#34;: &#34;data&#34;: &#34;sgvsbg8sifdvcmxkiq==&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/build/logs/",
+    "display": "Go/Build/Logs",
+    "title": "Logs",
+    "content": "function func (svc *buildservice) getlogs(org, repo string, build int) (*[]library.log, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/service/logs/",
+    "display": "Go/Service/Logs",
+    "title": "Logs",
+    "content": "function func (svc *logservice) getservice(org, repo string, build, service int) (*library.log, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/step/logs/",
+    "display": "Go/Step/Logs",
+    "title": "Logs",
+    "content": "function func (svc *logservice) getstep(org, repo string, build, step int) (*library.log, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/metadata/",
+    "display": "Concepts/Pipeline/Metadata",
+    "title": "Metadata",
+    "content": "the metadata component part of pipeline for vela. declaration allows extra information to be passed pipeline. fields following are used configure component: name description required template enables compiling as false syntax an example valid declaration: version: &#34;1&#34; +metadata: template: steps: name: test image: golang commands: go ./... build "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/stages/needs/",
+    "display": "Pipeline/Stages/Needs",
+    "title": "Needs",
+    "content": "the needs component part of stage for vela. declaration allows you to provide other stages that must complete before starting current one. syntax following an example valid component: version: &#34;1&#34; metadata: template: false stages: test: steps: name: test image: golang commands: go ./... build: needs: build pipeline will execute first, then run stage. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/tutorials/node/",
+    "display": "Plugins/Tutorials/Node",
+    "title": "Node.js",
+    "content": "we recommend reviewing docker&rsquo;s best practices before attempting to create custom plugin. that all plugins be placed inside scratch image. overview from node.js documentation: as an asynchronous event-driven javascript runtime, designed build scalable network applications. code plugin using node.js, we&rsquo;ll need first decide what task want accomplish. for example, we&rsquo;re going program makes http request the provided input: #!/usr/bin/env node const https require(&#34;https&#34;); url require(&#34;url&#34;); // import method parameter environment process.env.parameter_method; body process.env.parameter_body; uri process.env.parameter_url; capture full myurl url.parse(uri); options method: }; new input req https.request(myurl, options); exit immediately if errors req.on(&#34;error&#34;, () =&gt; process.exit(1); }); write req.write(process.env.parameter_body); send req.end(); example of section go-vela/vela-tutorials repository. image once have executable needed accomplish our plugin&rsquo;s task, dockerfile produce should contain script setup run when executed: fromnode:alpinerun apk add --update --no-cache ca-certificatescopy vela-sample.js /bin/vela-sample.jsentrypoint [&#34;node&#34;, &#34;/bin/vela-sample.js&#34;] target/vela-sample docker publishing order pipeline, make sure publish it registry: -t target/vela-sample:node push has added benefit enabling others community consume your plugin! troubleshooting verify performs desired can executed locally via command line: --rm -e parameter_body=&#34;this sample vela written with node.js&#34; parameter_method=&#34;post&#34; parameter_url=&#34;http://vela.localhost.com&#34; usage after registry, referenced pipeline: version:&#34;1&#34;steps:-name:samplenodepluginimage:target/vela-sample:nodepull:trueparameters:url:http://vela.localhost.commethod:postbody:| "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/overview/",
+    "display": "Docs/Plugins/Overview",
+    "title": "Overview",
+    "content": "plugin docker container that designed to perform set of pre-defined actions. these actions can be for any number general tasks, including: deploying code publishing artifacts sending notifications much, much more&hellip; version:&#34;1&#34;steps:-name:pluginimage:target/vela-docker:v0.1.0pull:trueparameters:registry:index.docker.iorepo:index.docker.io/octocat/hello-world we recommend reviewing docker&rsquo;s best practices before attempting create custom plugin. all plugins placed inside scratch image. configuration typically, are configured as step pipeline should accept their via environment variables. has the added benefit allowing written language! pass variables vela using parameters block. variable passed block, will injected into parameter_&lt;variable&gt;: version: &#34;1&#34; steps: name: image: target/vela-docker:v0.1.0 pull: true parameters: registry: index.docker.io repo: index.docker.io/octocat/hello-world from above example, following would container: parameter_registry=index.docker.io parameter_repo=index.docker.io/octocat/hello-world "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/parameters/",
+    "display": "Pipeline/Steps/Parameters",
+    "title": "Parameters",
+    "content": "the parameters component part of step for vela. declaration allows you to provide extra configuration variables plugin. syntax following an example valid component: version: &#34;1&#34; metadata: template: false steps: name: plugin image: target/vela-docker:v0.1.0 pull: true parameters: registry: index.docker.io repo: index.docker.io/octocat/hello-world pipeline will add environment step: parameter_registry=index.docker.io parameter_repo=index.docker.io/octocat/hello-world "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/plugin/",
+    "display": "Docs/Concepts/Plugin",
+    "title": "Plugin",
+    "content": "coming soon! "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/services/ports/",
+    "display": "Pipeline/Services/Ports",
+    "title": "Ports",
+    "content": "the ports component part of service for vela. declaration allows you to provide list map container pipeline. syntax following an example valid component: version: &#34;1&#34; metadata: template: false services: name: postgres image: postgres:12 ports: &#34;5432:5432&#34; steps: test golang environment: database_driver: database_config: &#39;postgres://postgres@postgres:5432/postgres?sslmode=disable&#39; commands: go ./... pipeline will start first, then run step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/privileged/",
+    "display": "Pipeline/Steps/Privileged",
+    "title": "Privileged",
+    "content": "the privileged component part of step for vela. declaration allows you to run container with extra privileges. syntax following an example valid component: version: &#34;1&#34; metadata: template: false steps: name: test image: golang privileged: true commands: go ./... build pipeline will execute first, then step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/services/pull/",
+    "display": "Pipeline/Services/Pull",
+    "title": "Pull",
+    "content": "the pull component part of service for vela. declaration allows you to automatically upgrade latest version image. vela will always attempt from its existing cache images. we recommend using whenever possible. syntax following an example valid component: version: &#34;1&#34; metadata: template: false services: name: postgres image: postgres:12 pull: true steps: test golang environment: database_driver: database_config: &#39;postgres://postgres@postgres:5432/postgres?sslmode=disable&#39; commands: go ./... pipeline start first, then run step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/pull/",
+    "display": "Pipeline/Steps/Pull",
+    "title": "Pull",
+    "content": "the pull component part of step for vela. declaration allows you to automatically upgrade latest version image. vela will always attempt from its existing cache images. we recommend using whenever possible. syntax following an example valid component: version: &#34;1&#34; metadata: template: false steps: name: test image: golang pull: true commands: go ./... build pipeline execute first, then run step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/tutorials/python/",
+    "display": "Plugins/Tutorials/Python",
+    "title": "Python",
+    "content": "we recommend reviewing docker&rsquo;s best practices before attempting to create custom plugin. that all plugins be placed inside scratch image. overview from python documentation: programming language lets you work quickly integrate systems more effectively. code plugin using python, we&rsquo;ll need first decide what task want accomplish. for example, we&rsquo;re going program makes an http request the provided input: #!/usr/bin/env import http.client os urlparse method parameter environment os.getenv[&#39;parameter_method&#39;] body os.getenv[&#39;parameter_body&#39;] url os.getenv[&#39;parameter_url&#39;] capture full uri urlparse(url) new connection conn http.client.httpsconnection(uri.hostname, uri.port) headers added {} send conn.request(method, uri.path, body, headers) response conn.getresponse() output print(response.read().decode(&#34;utf-8&#34;)) example of section go-vela/vela-tutorials repository. image once have script needed accomplish our plugin&rsquo;s task, dockerfile produce should contain setup run when executed: frompython:alpinerun apk add --update --no-cache ca-certificatescopy vela-sample.py /bin/vela-sample.pyentrypoint [&#34;python&#34;, &#34;/bin/vela-sample.py&#34;] target/vela-sample docker publishing order pipeline, make sure build publish it registry: -t target/vela-sample:python push has benefit enabling others community consume your plugin! troubleshooting verify performs desired can executed locally via command line: --rm -e parameter_body=&#34;this sample vela written with python&#34; parameter_method=&#34;post&#34; parameter_url=&#34;http://vela.localhost.com&#34; usage after registry, referenced pipeline: version:&#34;1&#34;steps:-name:samplepythonpluginimage:target/vela-sample:pythonpull:trueparameters:url:http://vela.localhost.commethod:postbody:| "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/infrastructure/server/queue/",
+    "display": "Infrastructure/Server/Queue",
+    "title": "Queue",
+    "content": "the queue component one of server components for vela. defines system vela uses publishing workloads to be completed by worker. configuration following options are used configure component: name environment description queue.driver queue_driver type client control operate queue.config queue_config full connection string queue.cluster queue_cluster configures cluster queue.routes queue_routes unique channels all available support vela_* prefixes variables. example: vela_queue_driver drivers documentation redis https://redis.io kafka https://kafka.apache.org not fully supported. using coming soon! limitations these known backups default, does perform any data. currently, functionality considered out scope project should responsibility admins database installation. we recommend reviewing third party tools provided vendor achieve functionality. creation create your system. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/infrastructure/worker/queue/",
+    "display": "Infrastructure/Worker/Queue",
+    "title": "Queue",
+    "content": "the queue component one of worker components for vela. coming soon! "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/build/remove/",
+    "display": "Api/Build/Remove",
+    "title": "Remove",
+    "content": "endpoint delete /api/v1/repos/:org/:repo/builds/:build parameters the following are used to configure endpoint: name description org of organization repo repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1&#34; response github/octocat/1 deleted "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/hook/remove/",
+    "display": "Api/Hook/Remove",
+    "title": "Remove",
+    "content": "endpoint delete /api/v1/hooks/:org/:repo/:hook parameters the following are used to configure endpoint: name description org of organization repo repository hook number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/hooks/github/octocat/1&#34; response github/octocat/1 deleted "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/repo/remove/",
+    "display": "Api/Repo/Remove",
+    "title": "Remove",
+    "content": "endpoint delete /api/v1/repos/:org/:repo parameters the following are used to configure endpoint: name description org of organization repo repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat&#34; response github/octocat deleted "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/secret/remove/",
+    "display": "Api/Secret/Remove",
+    "title": "Remove",
+    "content": "endpoint delete /api/v1/secrets/:engine/:type/:org/:name/:secret parameters the following are used to configure endpoint: name description engine of type secret org organization repository team permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/secrets/native/repo/github/octocat/foo&#34; response repo/github/octocat/foo deleted from native service "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/service/remove/",
+    "display": "Api/Service/Remove",
+    "title": "Remove",
+    "content": "endpoint delete /api/v1/repos/:org/:repo/builds/:build/services/:service parameters the following are used to configure endpoint: name description org of organization repo repository build number service permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/services/1&#34; response github/octocat/1/1 deleted "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/step/remove/",
+    "display": "Api/Step/Remove",
+    "title": "Remove",
+    "content": "endpoint delete /api/v1/repos/:org/:repo/builds/:build/steps/:step parameters the following are used to configure endpoint: name description org of organization repo repository build number step permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/steps/1&#34; response github/octocat/1/1 deleted "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/user/remove/",
+    "display": "Api/User/Remove",
+    "title": "Remove",
+    "content": "endpoint delete /api/v1/users/:user parameters the following are used to configure endpoint: name description user of permissions coming soon! responses status code 200 indicates request has succeeded 401 does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/users/octokitty&#34; response octokitty deleted "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/config/remove/",
+    "display": "Cli/Config/Remove",
+    "title": "Remove",
+    "content": "command vela remove config &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment addr url server n/a token user from api-version api version log-level change cli logging level org of organization repo repository secret-engine secret backend secret-type type permissions coming soon! sample section assumes have already installed setup cli. install cli, please review installation documentation. authentication request response "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/repo/remove/",
+    "display": "Cli/Repo/Remove",
+    "title": "Remove",
+    "content": "command vela remove repo &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization repo_org repository repo_name output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat response &#34;github/octocat&#34; was deleted "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/secret/remove/",
+    "display": "Cli/Secret/Remove",
+    "title": "Remove",
+    "content": "command vela remove secret &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment engine of secret_engine type secret_type org organization secret_org repo repository secret_repo team secret_team secret_name also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --engine native --type --org github --repo octocat --name foo response &#34;foo&#34; was deleted "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/build/remove/",
+    "display": "Go/Build/Remove",
+    "title": "Remove",
+    "content": "function func (svc *buildservice) remove(org, repo string, build int) (*string, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/repo/remove/",
+    "display": "Go/Repo/Remove",
+    "title": "Remove",
+    "content": "function func (svc *reposervice) remove(org, repo string) (*string, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/secret/remove/",
+    "display": "Go/Secret/Remove",
+    "title": "Remove",
+    "content": "function func (svc *secretservice) remove(engine, stype, org, name, secret string) (*string, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description engine of stype type org organization repository team permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/service/remove/",
+    "display": "Go/Service/Remove",
+    "title": "Remove",
+    "content": "function func (svc *svcservice) remove(org, repo string, build, service int) (*string, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/step/remove/",
+    "display": "Go/Step/Remove",
+    "title": "Remove",
+    "content": "function func (svc *stepservice) remove(org, repo string, build, step int) (*string, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/repo/repair/",
+    "display": "Api/Repo/Repair",
+    "title": "Repair",
+    "content": "endpoint patch /api/v1/repos/:org/:repo/repair parameters the following are used to configure endpoint: name description org of organization repo repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/repair&#34; response github/octocat repaired "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/repo/repair/",
+    "display": "Cli/Repo/Repair",
+    "title": "Repair",
+    "content": "command vela repair &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization repo_org repo repository repo_name output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat response &#34;github/octocat&#34; repaired "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/repo/repair/",
+    "display": "Go/Repo/Repair",
+    "title": "Repair",
+    "content": "function func (svc *reposervice) repair(org, repo string) (*string, *response, error) for more information, you can view our go documentation. parameters the following are used to configure function: name description org of organization repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/admin/repo/",
+    "display": "Api/Admin/Repo",
+    "title": "Repo",
+    "content": "endpoint get /api/v1/admin/repos permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/admin/repos&#34; response &#34;id&#34;: 1, &#34;user_id&#34;: &#34;org&#34;: &#34;github&#34;, &#34;name&#34;: &#34;octocat&#34;, &#34;full_name&#34;: &#34;github/octocat&#34;, &#34;link&#34;: &#34;https://github.com/github/octocat&#34;, &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;timeout&#34;: 60, &#34;visibility&#34;: &#34;public&#34;, &#34;private&#34;: false, &#34;trusted&#34;: true, &#34;active&#34;: &#34;allow_pull&#34;: &#34;allow_push&#34;: &#34;allow_deploy&#34;: &#34;allow_tag&#34;: false }, 2, &#34;octokitty&#34;, &#34;github/octokitty&#34;, &#34;https://github.com/github/octokitty&#34;, &#34;https://github.com/github/octokitty.git&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/system/repo/",
+    "display": "Concepts/System/Repo",
+    "title": "Repo",
+    "content": "the repo component part of core system components for vela. defined as upstream dependency from source control provider used to store code trigger hooks github&rsquo;s repository documentation: like folder your project. project&rsquo;s contains all files stores each file&rsquo;s revision history. you can also discuss manage work within repository. fields following make up component: name type description active bool signifies current status allow_deploy enable builds be triggered deployment event allow_pull pull_request allow_push push allow_tag tag branch string commit that build clone full url full_name unique (&lt;org&gt;/&lt;repo&gt;) hash secret generated by id int64 identifier link navigatable org private timeout total time allotted per execution trusted enables elevated permissions executed user_id user activated visibility access level required view vela stored configured backend repos table. references api cli sdk go "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/user/current/repos/",
+    "display": "User/Current/Repos",
+    "title": "Repos",
+    "content": "endpoint get /api/v1/user/source/repos permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/user/source/repos&#34; response &#34;id&#34;: 1, &#34;user_id&#34;: &#34;org&#34;: &#34;github&#34;, &#34;name&#34;: &#34;octocat&#34;, &#34;full_name&#34;: &#34;github/octocat&#34;, &#34;link&#34;: &#34;https://github.com/github/octocat&#34;, &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;timeout&#34;: 60, &#34;visibility&#34;: &#34;public&#34;, &#34;private&#34;: false, &#34;trusted&#34;: true, &#34;active&#34;: &#34;allow_pull&#34;: &#34;allow_push&#34;: &#34;allow_deploy&#34;: &#34;allow_tag&#34;: false }, 2, &#34;octokitty&#34;, &#34;github/octokitty&#34;, &#34;https://github.com/github/octokitty&#34;, &#34;https://github.com/github/octokitty.git&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/build/restart/",
+    "display": "Api/Build/Restart",
+    "title": "Restart",
+    "content": "endpoint post /api/v1/repos/:org/:repo/builds/:build parameters the following are used to configure endpoint: name description org of organization repo repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1&#34; response &#34;id&#34;: 2, &#34;repo_id&#34;: 1, &#34;number&#34;: &#34;parent&#34;: &#34;event&#34;: &#34;push&#34;, &#34;status&#34;: &#34;created&#34;, &#34;error&#34;: &#34;&#34;, &#34;enqueued&#34;: 1563474077, &#34;created&#34;: 1563474076, &#34;started&#34;: &#34;finished&#34;: 0, &#34;deploy&#34;: &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;source&#34;: &#34;https://github.com/github/octocat/commit/48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;title&#34;: &#34;push received from https://github.com/github/octocat&#34;, &#34;message&#34;: &#34;first commit...&#34;, &#34;commit&#34;: &#34;48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;sender&#34;: &#34;octokitty&#34;, &#34;author&#34;: &#34;branch&#34;: &#34;master&#34;, &#34;ref&#34;: &#34;refs/heads/master&#34;, &#34;base_ref&#34;: &#34;host&#34;: &#34;company.localhost&#34;, &#34;runtime&#34;: &#34;docker&#34;, &#34;distribution&#34;: &#34;linux&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/build/restart/",
+    "display": "Cli/Build/Restart",
+    "title": "Restart",
+    "content": "command vela restart build &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization build_org repo repository build_repo number build_number also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat --build response new &#34;github/octocat/2&#34; was restarted from &#34;github/octocat/1&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/build/restart/",
+    "display": "Go/Build/Restart",
+    "title": "Restart",
+    "content": "function func (svc *buildservice) restart(org, repo string, build int) (*library.build, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/tutorials/ruby/",
+    "display": "Plugins/Tutorials/Ruby",
+    "title": "Ruby",
+    "content": "we recommend reviewing docker&rsquo;s best practices before attempting to create custom plugin. that all plugins be placed inside scratch image. overview from ruby documentation: is&hellip; dynamic, open source programming language with focus on simplicity productivity. it has an elegant syntax natural read easy write. code plugin using ruby, we&rsquo;ll need first decide what task want accomplish. for example, we&rsquo;re going program makes http request the provided input: #!/usr/bin/env require &#39;net/http&#39; &#39;uri&#39; import method parameter environment env[&#39;parameter_method&#39;] body env[&#39;parameter_body&#39;] url env[&#39;parameter_url&#39;] capture full uri uri(url) new client net::http.new(uri.host, uri.port) send response http.send_request( method, uri.path, body, output puts response.read_body example of section go-vela/vela-tutorials repository. image once have script needed accomplish our plugin&rsquo;s task, dockerfile produce should contain setup run when executed: fromruby:alpinerun apk add --update --no-cache ca-certificatescopy vela-sample.rb /bin/vela-sample.rbentrypoint [&#34;ruby&#34;, &#34;/bin/vela-sample.rb&#34;] target/vela-sample docker publishing order pipeline, make sure build publish registry: -t target/vela-sample:ruby push added benefit enabling others community consume your plugin! troubleshooting verify performs desired can executed locally via command line: --rm -e parameter_body=&#34;this sample vela written ruby&#34; parameter_method=&#34;post&#34; parameter_url=&#34;http://vela.localhost.com&#34; usage after registry, referenced pipeline: version:&#34;1&#34;steps:-name:samplerubypluginimage:target/vela-sample:rubypull:trueparameters:url:http://vela.localhost.commethod:postbody:| "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/ruleset/",
+    "display": "Pipeline/Steps/Ruleset",
+    "title": "Ruleset",
+    "content": "the ruleset component part of step for vela. declaration allows you to provide conditions limit execution container. simple fields following are used configure version component: name description required branch build false event path workspace files repo status tag reference syntax an example valid version: &#34;1&#34; metadata: template: steps: name: test image: golang ruleset: branch: master event: push commands: go ./... pipeline will steps to: builds with advanced continue enables continuing if fails limits all rules must match operator use when evaluating unless can if: unless: to:and also without "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/infrastructure/worker/runtime/",
+    "display": "Infrastructure/Worker/Runtime",
+    "title": "Runtime",
+    "content": "the runtime component one of worker components for vela. coming soon! "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/plugins/registry/s3_cache/",
+    "display": "Plugins/Registry/S3 cache",
+    "title": "S3 Cache",
+    "content": "overview plugin enables you to cache build resources an s3 compatible store for vela pipeline. source code: https://github.com/go-vela/vela-s3-cache registry: https://hub.docker.com/r/target/vela-s3-cache usage sample of restoring cache: steps:-name:restore_cacheimage:target/vela-s3-cache:v0.1.0pull:trueparameters:action:restoreroot:mybucketserver:mybucket.s3-us-west-2.amazonaws.com rebuilding steps:-name:rebuild_cacheimage:target/vela-s3-cache:v0.1.0pull:trueparameters:action:rebuildroot:mybucketserver:mybucket.s3-us-west-2.amazonaws.commount:-.gradle flushing steps:-name:flushing_cacheimage:target/vela-s3-cache:v0.1.0pull:trueparameters:action:flushroot:mybucketserver:mybucket.s3-us-west-2.amazonaws.com secrets note: users should refrain from configuring sensitive information your pipeline plain text. can use substitute values at runtime: steps: name: restore_cache image: target/vela-s3-cache:v0.1.0 pull: true secrets: cache_access_key, cache_secret_key parameters: action: restore root: mybucket server: mybucket.s3-us-west-2.amazonaws.com access_key: akiaiosfodnn7example secret_key: 123456789qwertyexample parameters the following used configure all image actions: name description required default action perform against n/a log_level set log level info server instance communicate with access_key access key communication secret_key secret root bucket prefix path object(s) are filename object false mount file directories locations timeout call rebuild flush age delete objects past specific 14 upload template coming soon! troubleshooting below list common problems how solve them: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/admin/secret/",
+    "display": "Api/Admin/Secret",
+    "title": "Secret",
+    "content": "endpoint get /api/v1/admin/secrets permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/admin/secrets&#34; response &#34;id&#34;: 1, &#34;org&#34;: &#34;github&#34;, &#34;repo&#34;: &#34;octocat&#34;, &#34;team&#34;: &#34;&#34;, &#34;name&#34;: &#34;foo&#34;, &#34;value&#34;: null, &#34;type&#34;: &#34;repo&#34;, &#34;images&#34;: [&#34;alpine&#34;], &#34;events&#34;: [&#34;push&#34;] }, 2, &#34;bar&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/infrastructure/server/secret/",
+    "display": "Infrastructure/Server/Secret",
+    "title": "Secret",
+    "content": "the secret component one of server components for vela. defines system vela uses storing accessing secrets. configuration following options are used to configure component: name environment description vault.driver secret_vault enables vault engine vault.addr secret_vault_addr full navigatable url installation vault.token secret_vault_token token required read/write secrets all available support vela_* prefixes variables. example: vela_secret_vault "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/system/secret/",
+    "display": "Concepts/System/Secret",
+    "title": "Secret",
+    "content": "the secret component part of core system components for vela. defined as piece sensitive data information that you want to tightly control access to. these are extremely useful when trying avoid providing plain text. they typically include following list some examples secrets: api keys certificates passwords tokens much, much more&hellip; fields make up component: name type description allow_command bool enable injecting with commands declaration events []string whitelist permitted id int64 unique identifier images string org from source provider repo team store storage backend value stored configured vela secrets table. types available configure scoped any repository an organization single shared installation accessible by organization. requires have admin repository. installation. unique, because require exist your be member references cli sdk go "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/secrets/",
+    "display": "Pipeline/Steps/Secrets",
+    "title": "Secrets",
+    "content": "the secrets component part of step for vela. declaration allows you to provide sensitive variables injected into container environment. any variable provided with will be as an upper case variable. simple following example valid syntax version component: version: &#34;1&#34; metadata: template: false steps: name: test image: golang secrets: git_username, git_password commands: echo &#34;machine github.com&#34; &gt; .netrc &#34;login ${git_username}&#34; &#34;password ${git_password}&#34; go ./... build pipeline add environment git_username=&lt;value&gt; git_password=&lt;value&gt; also execute first, then run step. advanced fields are used configure name description required source secret from rename true target inject source: username target: git_username password "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/admin/service/",
+    "display": "Api/Admin/Service",
+    "title": "Service",
+    "content": "endpoint get /api/v1/admin/services permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/admin/services&#34; response &#34;id&#34;: 2, &#34;build_id&#34;: &#34;repo_id&#34;: &#34;number&#34;: 1, &#34;name&#34;: &#34;build&#34;, &#34;status&#34;: &#34;success&#34;, &#34;error&#34;: &#34;&#34;, &#34;exit_code&#34;: 0, &#34;created&#34;: 1563475419, &#34;started&#34;: 1563475420, &#34;finished&#34;: 1563475421 }, &#34;clone&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/system/service/",
+    "display": "Concepts/System/Service",
+    "title": "Service",
+    "content": "the service component part of core system components for vela. defined as detached (headless), execution instruction pipeline. each executed inside an ephemeral docker container starts at beginning fields following make up component: name type description build_id int64 unique identifier build created unix timestamp when was distribution string operating on error message received during time exit_code int return code from finished completed host hostname id image used to create number repo_id repo that triggered runtime with started status signifies end condition stored configured vela backend services table. references api cli sdk go "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/infrastructure/server/source/",
+    "display": "Infrastructure/Server/Source",
+    "title": "Source",
+    "content": "the source component one of server components for vela. defines system vela uses integrating with code. often referred to as version control provider. configuration following options are used configure component: name environment description source.driver source_driver type client operate source.url source_url full navigatable url source.client source_client oauth id source.secret source_secret secret source.context source_context message set commit status all available support vela_* prefixes variables. example: queue vela_source_driver drivers documentation github instance https://github.com/about gitlab https://about.gitlab.com not fully supported. using coming soon! "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/templates/source/",
+    "display": "Pipeline/Templates/Source",
+    "title": "Source",
+    "content": "the source component part of template for vela. declaration allows you to provide path remote system. syntax following an example valid component: version: &#34;1&#34; metadata: template: false templates name: source: github.com/vela/atlas/cmd type: github steps: test vars: cmd: go ./... build pipeline will execute step first, then run step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/admin/step/",
+    "display": "Api/Admin/Step",
+    "title": "Step",
+    "content": "endpoint get /api/v1/admin/steps permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/admin/steps&#34; response &#34;id&#34;: 2, &#34;build_id&#34;: &#34;repo_id&#34;: &#34;number&#34;: 1, &#34;name&#34;: &#34;build&#34;, &#34;status&#34;: &#34;success&#34;, &#34;error&#34;: &#34;&#34;, &#34;exit_code&#34;: 0, &#34;created&#34;: 1563475419, &#34;started&#34;: &#34;finished&#34;: &#34;host&#34;: &#34;company.localhost&#34;, &#34;runtime&#34;: &#34;docker&#34;, &#34;distribution&#34;: &#34;linux&#34; }, &#34;clone&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/system/step/",
+    "display": "Concepts/System/Step",
+    "title": "Step",
+    "content": "the step component part of core system components for vela. defined as sequential, execution instruction pipeline. each executed inside an ephemeral docker container are always order they defined. fields following make up component: name type description build_id int64 unique identifier build created unix timestamp when was distribution string operating on error message received during time exit_code int return code from finished completed host hostname id image used to create number repo_id repo that triggered runtime with started status signifies end condition stage stored configured vela backend steps table. references api cli sdk go "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/stages/steps/",
+    "display": "Pipeline/Stages/Steps",
+    "title": "Steps",
+    "content": "the steps component part of stage for vela. declaration allows you to provide sequential, execution instructions stage. more information, can visit documentation. syntax following an example valid component: version: &#34;1&#34; metadata: template: false stages: test: steps: name: test image: golang commands: go ./... build: build pipeline will execute at same time. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/steps/template/",
+    "display": "Pipeline/Steps/Template",
+    "title": "Template",
+    "content": "the template component part of step for vela. declaration allows you to provide name expand pipeline. fields following are used configure component: description required unique identifier pipeline true vars variables injected into false syntax an example valid version: &#34;1&#34; metadata: template: templates name: source: github.com/vela/atlas/cmd type: github steps: test vars: cmd: go ./... build will execute first, then run step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/template/",
+    "display": "Docs/Concepts/Template",
+    "title": "Template",
+    "content": "coming soon! "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/secrets/type/",
+    "display": "Pipeline/Secrets/Type",
+    "title": "Type",
+    "content": "the type component part of secret for vela. declaration allows you to provide fetch from storage backend. has default value repo. options following are available configure component: name description org scoped any repository an organization repo single shared installation secrets with accessible by organization. requires have admin access repository. vela installation. these unique, because they require team exist your be member syntax example valid version: &#34;1&#34; metadata: template: false secrets: name: username engine: native key: type: password steps: test image: golang username, commands: echo &#34;machine github.com&#34; &gt; .netrc &#34;login ${username}&#34; &#34;password ${password}&#34; go ./... pipeline will allow referenced: also add environment variables step: username=&lt;value&gt; password=&lt;value&gt; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/templates/type/",
+    "display": "Pipeline/Templates/Type",
+    "title": "Type",
+    "content": "the type component part of template for vela. declaration allows you to provide provided from remote system. options following are available configure component: name description github fetches enterprise instance designed fetch templates enterprise. syntax an example valid version: &#34;1&#34; metadata: template: false name: source: github.com/vela/atlas/cmd type: steps: test vars: cmd: go ./... build pipeline will execute step first, then run step. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/build/update/",
+    "display": "Api/Build/Update",
+    "title": "Update",
+    "content": "endpoint put /api/v1/repos/:org/:repo/builds/:build parameters the following are used to configure endpoint: name description org of organization repo repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;message&#34;: &#34;this an updated message&#34; curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1&#34; response &#34;id&#34;: 1, &#34;repo_id&#34;: &#34;number&#34;: &#34;parent&#34;: &#34;event&#34;: &#34;push&#34;, &#34;status&#34;: &#34;created&#34;, &#34;error&#34;: &#34;&#34;, &#34;enqueued&#34;: 1563474077, &#34;created&#34;: 1563474076, &#34;started&#34;: &#34;finished&#34;: 0, &#34;deploy&#34;: &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;source&#34;: &#34;https://github.com/github/octocat/commit/48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;title&#34;: &#34;push received from https://github.com/github/octocat&#34;, message&#34;, &#34;commit&#34;: &#34;48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;sender&#34;: &#34;octokitty&#34;, &#34;author&#34;: &#34;branch&#34;: &#34;master&#34;, &#34;ref&#34;: &#34;refs/heads/master&#34;, &#34;base_ref&#34;: &#34;host&#34;: &#34;company.localhost&#34;, &#34;runtime&#34;: &#34;docker&#34;, &#34;distribution&#34;: &#34;linux&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/hook/update/",
+    "display": "Api/Hook/Update",
+    "title": "Update",
+    "content": "endpoint put /api/v1/hooks/:org/:repo/:hook parameters the following are used to configure endpoint: name description org of organization repo repository hook number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;status&#34;: &#34;failure&#34; curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/hooks/github/octocat/1&#34; response &#34;id&#34;: 1, &#34;repo_id&#34;: &#34;build_id&#34;: &#34;number&#34;: &#34;source_id&#34;: &#34;c8da1302-07d6-11ea-882f-4893bca275b8&#34;, &#34;created&#34;: &#34;1563474076&#34;, &#34;host&#34;: &#34;github.com&#34;, &#34;event&#34;: &#34;push&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;error&#34;: &#34;&#34;, &#34;failure&#34;, &#34;link&#34;: &#34;&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/repo/update/",
+    "display": "Api/Repo/Update",
+    "title": "Update",
+    "content": "endpoint put /api/v1/repos/:org/:repo parameters the following are used to configure endpoint: name description org of organization repo repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;allow_tag&#34;: true curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat&#34; response &#34;id&#34;: 1, &#34;user_id&#34;: &#34;org&#34;: &#34;github&#34;, &#34;name&#34;: &#34;octocat&#34;, &#34;full_name&#34;: &#34;github/octocat&#34;, &#34;link&#34;: &#34;https://github.com/github/octocat&#34;, &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;timeout&#34;: 60, &#34;visibility&#34;: &#34;public&#34;, &#34;private&#34;: false, &#34;trusted&#34;: true, &#34;active&#34;: &#34;allow_pull&#34;: &#34;allow_push&#34;: &#34;allow_deploy&#34;: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/secret/update/",
+    "display": "Api/Secret/Update",
+    "title": "Update",
+    "content": "endpoint put /api/v1/secrets/:engine/:type/:org/:name/:secret parameters the following are used to configure endpoint: name description engine of type secret org organization repository team permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;events&#34;: [&#34;push&#34;, &#34;tag&#34;] curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/secrets/native/repo/github/octocat/foo&#34; response &#34;id&#34;: 1, &#34;org&#34;: &#34;github&#34;, &#34;repo&#34;: &#34;octocat&#34;, &#34;team&#34;: &#34;&#34;, &#34;name&#34;: &#34;foo&#34;, &#34;value&#34;: &#34;type&#34;: &#34;repo&#34;, &#34;images&#34;: [&#34;alpine&#34;], "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/service/update/",
+    "display": "Api/Service/Update",
+    "title": "Update",
+    "content": "endpoint put /api/v1/repos/:org/:repo/builds/:build/services/:service parameters the following are used to configure endpoint: name description org of organization repo repository build number service permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;status&#34;: &#34;failure&#34; curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/services/1&#34; response &#34;id&#34;: 1, &#34;build_id&#34;: &#34;repo_id&#34;: &#34;number&#34;: &#34;name&#34;: &#34;clone&#34;, &#34;failure&#34;, &#34;error&#34;: &#34;&#34;, &#34;exit_code&#34;: 0, &#34;created&#34;: 1563475419, &#34;started&#34;: 1563475420, &#34;finished&#34;: 1563475421 "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/step/update/",
+    "display": "Api/Step/Update",
+    "title": "Update",
+    "content": "endpoint put /api/v1/repos/:org/:repo/builds/:build/steps/:step parameters the following are used to configure endpoint: name description org of organization repo repository build number step permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;status&#34;: &#34;failure&#34; curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/steps/1&#34; response &#34;id&#34;: 1, &#34;build_id&#34;: &#34;repo_id&#34;: &#34;number&#34;: &#34;name&#34;: &#34;clone&#34;, &#34;failure&#34;, &#34;error&#34;: &#34;&#34;, &#34;exit_code&#34;: 0, &#34;created&#34;: 1563475419, &#34;started&#34;: &#34;finished&#34;: &#34;host&#34;: &#34;company.localhost&#34;, &#34;runtime&#34;: &#34;docker&#34;, &#34;distribution&#34;: &#34;linux&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/user/current/update/",
+    "display": "User/Current/Update",
+    "title": "Update",
+    "content": "endpoint put /api/v1/user permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. file &#34;admin&#34;: true curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/user&#34; response &#34;id&#34;: 1, &#34;name&#34;: &#34;octokitty&#34;, &#34;token&#34;: null, &#34;favorites&#34;: [&#34;github/octocat&#34;], &#34;active&#34;: true, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/user/update/",
+    "display": "Api/User/Update",
+    "title": "Update",
+    "content": "endpoint put /api/v1/users/:user parameters the following are used to configure endpoint: name description user of permissions coming soon! responses status code 200 indicates request has succeeded 401 does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. file &#34;admin&#34;: true curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;content-type: application/json&#34; -d &#34;@data.json&#34; &#34;http://127.0.0.1:8080/api/v1/users/octokitty&#34; response &#34;id&#34;: 1, &#34;name&#34;: &#34;octokitty&#34;, &#34;token&#34;: null, &#34;favorites&#34;: [&#34;github/octocat&#34;], &#34;active&#34;: true, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/config/update/",
+    "display": "Cli/Config/Update",
+    "title": "Update",
+    "content": "command vela update config &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment addr url server n/a token user from api-version api version log-level change cli logging level org of organization repo repository secret-engine secret backend secret-type type permissions coming soon! sample section assumes have already installed setup cli. install cli, please review installation documentation. authentication request --org github response addr: https://vela-server.localhost token: qwerty123 api-version: v1 log-level: info org: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/repo/update/",
+    "display": "Cli/Repo/Update",
+    "title": "Update",
+    "content": "command vela update repo &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization repo_org repository repo_name link full url repo_link clone repo_clone timeout max time allowed per build repo_timeout private makes repo_private trusted repo_trusted event events trigger repo_event output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat --event tag response &#34;github/octocat&#34; was updated "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/secret/update/",
+    "display": "Cli/Secret/Update",
+    "title": "Update",
+    "content": "command vela update secret &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment engine of secret_engine type secret_type org organization secret_org repo repository secret_repo team secret_team secret_name value secret_value image limit specific image(s) secret_images event event(s) secret_events filename add secret(s) from file n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --engine native --type --org github --repo octocat --name foo --value baz response &#34;foo&#34; was updated advanced input updating single-line multi-line using symbol. syntax @/path/to/file example @$home/tmp/secret.txt secrets multiple parameter. -f secret.yml single yaml document ---metadata:api_version:v1engine:nativesecrets:-org:octocatrepo:githubname:foovalue:bartype:repoimages:-golang:latestevents:-push-pull_request-org:githubteam:octokittiesname:foo1value:&#34;@/path/to/file/bar1&#34;type:sharedimages:-golang:latestevents:-push-pull_request ---metadata:api_version:v1engine:nativesecrets:-org:githubrepo:octocatname:foovalue:bartype:repoimages:-golang:latestevents:-push-pull_request---metadata:api_version:v1engine:vaultsecrets:-org:githubteam:octokittiesname:foo1value:&#34;@/path/to/file/bar1&#34;type:sharedimages:-golang:latestevents:-push-pull_request "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/build/update/",
+    "display": "Go/Build/Update",
+    "title": "Update",
+    "content": "function func (svc *buildservice) update(org, repo string, *library.build) (*library.build, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository information on build permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/repo/update/",
+    "display": "Go/Repo/Update",
+    "title": "Update",
+    "content": "function func (svc *reposervice) update(org, repo string, *library.repo) (*library.repo, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository information on permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/secret/update/",
+    "display": "Go/Secret/Update",
+    "title": "Update",
+    "content": "function func (svc *secretservice) update(engine, stype, org, name string, *library.secret) (*library.secret, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: description engine of secret stype type org organization repository team information on permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/service/update/",
+    "display": "Go/Service/Update",
+    "title": "Update",
+    "content": "function func (svc *svcservice) update(org, repo string, build int, *library.service) (*library.service, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository number information on service permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/step/update/",
+    "display": "Go/Step/Update",
+    "title": "Update",
+    "content": "function func (svc *stepservice) update(org, repo string, build int, *library.step) (*library.step, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository number information on step permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/admin/user/",
+    "display": "Api/Admin/User",
+    "title": "User",
+    "content": "endpoint get /api/v1/admin/users permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/admin/users&#34; response &#34;id&#34;: 2, &#34;name&#34;: &#34;octocat&#34;, &#34;token&#34;: null, &#34;favorites&#34;: [&#34;github/octocat&#34;], &#34;active&#34;: true, &#34;admin&#34;: false }, 1, &#34;octokitty&#34;, "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/system/user/",
+    "display": "Concepts/System/User",
+    "title": "User",
+    "content": "the user component part of core system components for vela. defined as personal account granted to each individual who registers fields following make up component: name type description active bool signifies current status admin enables elevated permissions builds executed repo favorites []string whitelist repos favorite ui hash string unique secret generated by id int64 identifier token access source control provider stored configured vela backend users table. references api cli sdk go "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/concepts/pipeline/version/",
+    "display": "Concepts/Pipeline/Version",
+    "title": "Version",
+    "content": "the version component part of pipeline for vela. declaration allows you to provide syntax used evaluate pipeline. all vela pipelines will require be provided. following an example valid declaration: +version: &#34;1&#34; metadata: template: false steps: name: test image: golang commands: go ./... build "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/build/view/",
+    "display": "Api/Build/View",
+    "title": "View",
+    "content": "endpoint get /api/v1/repos/:org/:repo/builds/:build parameters the following are used to configure endpoint: name description org of organization repo repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1&#34; response &#34;id&#34;: 1, &#34;repo_id&#34;: &#34;number&#34;: &#34;parent&#34;: &#34;event&#34;: &#34;push&#34;, &#34;status&#34;: &#34;created&#34;, &#34;error&#34;: &#34;&#34;, &#34;enqueued&#34;: 1563474077, &#34;created&#34;: 1563474076, &#34;started&#34;: &#34;finished&#34;: 0, &#34;deploy&#34;: &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;source&#34;: &#34;https://github.com/github/octocat/commit/48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;title&#34;: &#34;push received from https://github.com/github/octocat&#34;, &#34;message&#34;: &#34;first commit...&#34;, &#34;commit&#34;: &#34;48afb5bdc41ad69bf22588491333f7cf71135163&#34;, &#34;sender&#34;: &#34;octokitty&#34;, &#34;author&#34;: &#34;branch&#34;: &#34;master&#34;, &#34;ref&#34;: &#34;refs/heads/master&#34;, &#34;base_ref&#34;: &#34;host&#34;: &#34;company.localhost&#34;, &#34;runtime&#34;: &#34;docker&#34;, &#34;distribution&#34;: &#34;linux&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/hook/view/",
+    "display": "Api/Hook/View",
+    "title": "View",
+    "content": "endpoint get /api/v1/hooks/:org/:repo/:hook parameters the following are used to configure endpoint: name description org of organization repo repository hook number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/hooks/github/octocat/1&#34; response &#34;id&#34;: 1, &#34;repo_id&#34;: &#34;build_id&#34;: &#34;number&#34;: &#34;source_id&#34;: &#34;c8da1302-07d6-11ea-882f-4893bca275b8&#34;, &#34;created&#34;: &#34;1563474076&#34;, &#34;host&#34;: &#34;github.com&#34;, &#34;event&#34;: &#34;push&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;error&#34;: &#34;&#34;, &#34;status&#34;: &#34;success&#34;, &#34;link&#34;: &#34;&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/repo/view/",
+    "display": "Api/Repo/View",
+    "title": "View",
+    "content": "endpoint get /api/v1/repos/:org/:repo parameters the following are used to configure endpoint: name description org of organization repo repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat&#34; response &#34;id&#34;: 1, &#34;user_id&#34;: &#34;org&#34;: &#34;github&#34;, &#34;name&#34;: &#34;octocat&#34;, &#34;full_name&#34;: &#34;github/octocat&#34;, &#34;link&#34;: &#34;https://github.com/github/octocat&#34;, &#34;clone&#34;: &#34;https://github.com/github/octocat.git&#34;, &#34;branch&#34;: &#34;master&#34;, &#34;timeout&#34;: 60, &#34;visibility&#34;: &#34;public&#34;, &#34;private&#34;: false, &#34;trusted&#34;: true, &#34;active&#34;: &#34;allow_pull&#34;: &#34;allow_push&#34;: &#34;allow_deploy&#34;: &#34;allow_tag&#34;: false "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/secret/view/",
+    "display": "Api/Secret/View",
+    "title": "View",
+    "content": "endpoint get /api/v1/secrets/:engine/:type/:org/:name/:secret parameters the following are used to configure endpoint: name description engine of type secret org organization repository team permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/secrets/native/repo/github/octocat/foo&#34; response &#34;id&#34;: 1, &#34;org&#34;: &#34;github&#34;, &#34;repo&#34;: &#34;octocat&#34;, &#34;team&#34;: &#34;&#34;, &#34;name&#34;: &#34;foo&#34;, &#34;value&#34;: &#34;type&#34;: &#34;repo&#34;, &#34;images&#34;: [&#34;alpine&#34;], &#34;events&#34;: [&#34;push&#34;] "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/service/view/",
+    "display": "Api/Service/View",
+    "title": "View",
+    "content": "endpoint get /api/v1/repos/:org/:repo/builds/:build/services/:service parameters the following are used to configure endpoint: name description org of organization repo repository build number service permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/services/1&#34; response &#34;id&#34;: 1, &#34;build_id&#34;: &#34;repo_id&#34;: &#34;number&#34;: &#34;name&#34;: &#34;clone&#34;, &#34;status&#34;: &#34;success&#34;, &#34;error&#34;: &#34;&#34;, &#34;exit_code&#34;: 0, &#34;created&#34;: 1563475419, &#34;started&#34;: 1563475420, &#34;finished&#34;: 1563475421 "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/step/view/",
+    "display": "Api/Step/View",
+    "title": "View",
+    "content": "endpoint get /api/v1/repos/:org/:repo/builds/:build/steps/:step parameters the following are used to configure endpoint: name description org of organization repo repository build number step permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/repos/github/octocat/builds/1/steps/1&#34; response &#34;id&#34;: 1, &#34;build_id&#34;: &#34;repo_id&#34;: &#34;number&#34;: &#34;name&#34;: &#34;clone&#34;, &#34;status&#34;: &#34;success&#34;, &#34;error&#34;: &#34;&#34;, &#34;exit_code&#34;: 0, &#34;created&#34;: 1563475419, &#34;started&#34;: &#34;finished&#34;: &#34;host&#34;: &#34;company.localhost&#34;, &#34;runtime&#34;: &#34;docker&#34;, &#34;distribution&#34;: &#34;linux&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/user/current/view/",
+    "display": "User/Current/View",
+    "title": "View",
+    "content": "endpoint get /api/v1/user permissions coming soon! responses status code description 200 indicates the request has succeeded 401 user does not have proper sample section assumes you already know how to authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/user&#34; response &#34;id&#34;: 1, &#34;name&#34;: &#34;octokitty&#34;, &#34;token&#34;: null, &#34;favorites&#34;: [&#34;github/octocat&#34;], &#34;active&#34;: true, &#34;admin&#34;: false "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/api/user/view/",
+    "display": "Api/User/View",
+    "title": "View",
+    "content": "endpoint get /api/v1/users/:user parameters the following are used to configure endpoint: name description user of permissions coming soon! responses status code 200 indicates request has succeeded 401 does not have proper sample section assumes you already know how authenticate api. api, please review authentication documentation. curl -x -h &#34;authorization: bearer &lt;token&gt;&#34; &#34;http://127.0.0.1:8080/api/v1/users/octokitty&#34; response &#34;id&#34;: 1, &#34;name&#34;: &#34;octokitty&#34;, &#34;token&#34;: null, &#34;favorites&#34;: [&#34;github/octocat&#34;], &#34;active&#34;: true, &#34;admin&#34;: false "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/build/view/",
+    "display": "Cli/Build/View",
+    "title": "View",
+    "content": "command vela view build &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization build_org repo repository build_repo number build_number output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat --build response id: repo_id: number: parent: event: push status: created error: &#34;&#34; populates when platform runs into an error with enqueued: 1563474077 created: 1563474076 started: finished: deploy: clone: https://github.com/github/octocat.git source: https://github.com/github/octocat/commit/48afb5bdc41ad69bf22588491333f7cf71135163 title: received from https://github.com/github/octocat message: first commit... commit: 48afb5bdc41ad69bf22588491333f7cf71135163 sender: octokitty author: branch: master ref: refs/heads/master baseref: host: &#34;company.localhost&#34; runtime: &#34;docker&#34; distribution: &#34;linux&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/config/view/",
+    "display": "Cli/Config/View",
+    "title": "View",
+    "content": "command vela view config &lt;arguments...&gt; for more information, you can run --help. permissions coming soon! sample section assumes have already installed setup the cli. to install cli, please review installation documentation. authentication request response addr: https://vela-server.localhost token: qwerty123 api-version: v1 log-level: info "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/log/view/",
+    "display": "Cli/Log/View",
+    "title": "View",
+    "content": "command vela view log &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization build_org repo repository build_repo build number build_number also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat --build response git init initialized empty /home/github_octocat_5/.git/ remote add origin https://github.com/github/octocat.git --verbose (fetch) (push) fetch --no-tags refs/heads/master from https://github.com/github/octocat branch master -&gt; fetch_head [new branch] origin/master reset --hard afafce5e33a8efd4340613b31a953107d6dec3a3 head now at afafce5 dummy commit echo &#34;hello world!&#34; hello world! "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/repo/view/",
+    "display": "Cli/Repo/View",
+    "title": "View",
+    "content": "command vela view repo &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization repo_org repository repo_name output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat response id: userid: org: name: fullname: github/octocat link: https://github.com/github/octocat clone: https://github.com/github/octocat.git branch: master timeout: 60 visibility: public private: false trusted: active: true allowpull: allowpush: allowdeploy: allowtag: "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/secret/view/",
+    "display": "Cli/Secret/View",
+    "title": "View",
+    "content": "command vela view secret &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment engine of secret_engine type secret_type org organization secret_org repo repository secret_repo team secret_team secret_name output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --engine native --type --org github --repo octocat --name foo response id: org: repo: team: &#34;&#34; name: value: type: images: null events: push pull_request "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/service/view/",
+    "display": "Cli/Service/View",
+    "title": "View",
+    "content": "command vela view service &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization build_org repo repository build_repo build number build_number service_number output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat --build --service response id: build_id: repo_id: number: name: clone status: success error: &#34;&#34; exitcode: created: 1561748980 started: 1561748979 finished: 1561748981 "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/cli/step/view/",
+    "display": "Cli/Step/View",
+    "title": "View",
+    "content": "command vela view step &lt;parameters...&gt; &lt;arguments...&gt; for more information, you can run --help. parameters the following are used to configure command: name description environment org of organization build_org repo repository build_repo build number build_number step_number output format n/a also supports setting via configuration file: please review cli config documentation. permissions coming soon! sample section assumes have already installed setup cli. install cli, installation authentication request --org github --repo octocat --build --step response id: build_id: repo_id: number: name: clone status: success error: &#34;&#34; populates when platform runs into an error with exitcode: created: 1561748980 started: 1561748979 finished: 1561748981 host: &#34;worker.host.com&#34; runtime: &#34;docker&#34; distribution: &#34;linux&#34; "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/build/view/",
+    "display": "Go/Build/View",
+    "title": "View",
+    "content": "function func (svc *buildservice) get(org, repo string, build int) (*library.build, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/repo/view/",
+    "display": "Go/Repo/View",
+    "title": "View",
+    "content": "function func (svc *reposervice) get(org, repo string) (*library.repo, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/secret/view/",
+    "display": "Go/Secret/View",
+    "title": "View",
+    "content": "function func (svc *secretservice) get(engine, stype, org, name, secret string) (*library.secret, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description engine of stype type org organization repository team permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/service/view/",
+    "display": "Go/Service/View",
+    "title": "View",
+    "content": "function func (svc *svcservice) get(org, repo string, build, service int) (*library.service, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    },
+
+    {
+    "url": "https://go-vela.github.io/docs/sdk/go/step/view/",
+    "display": "Go/Step/View",
+    "title": "View",
+    "content": "function func (svc *stepservice) get(org, repo string, build, step int) (*library.step, *response, error) for more information, you can view our go documentation. parameters the following are used to configure endpoint: name description org of organization repository build number permissions coming soon! responses status code 200 indicates request has succeeded 401 user does not have proper sample section assumes already know how authenticate with sdk. sdk, please review authentication find an example here. "
+    }
+
+]}

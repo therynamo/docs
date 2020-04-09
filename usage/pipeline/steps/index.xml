@@ -1,0 +1,369 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vela – Steps</title>
+    <link>https://go-vela.github.io/docs/usage/pipeline/steps/</link>
+    <description>Recent content in Steps on Vela</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://go-vela.github.io/docs/usage/pipeline/steps/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Usage: Image</title>
+      <link>https://go-vela.github.io/docs/usage/pipeline/steps/image/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://go-vela.github.io/docs/usage/pipeline/steps/image/</guid>
+      <description>
+        
+        
+        
+
+&lt;p&gt;The &lt;code&gt;image&lt;/code&gt; declaration for a build step instructs Vela which &lt;a href=&#34;https://docs.docker.com/engine/docker-overview/#images&#34; target=&#34;_blank&#34;&gt;Docker image&lt;/a&gt; to use to create the ephemeral container.
+This means setup and install for repository dependencies on the host machine is not required as it ensures all dependencies are available within the image.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+steps:
+  - name: test
+&lt;span style=&#34;color:#00a000&#34;&gt;+   image: golang
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go test ./...
+
+  - name: build
+&lt;span style=&#34;color:#00a000&#34;&gt;+   image: golang
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go build
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;valid-images&#34;&gt;Valid Images&lt;/h3&gt;
+
+&lt;p&gt;Any valid Docker image in any Docker registry can be used for the build environment.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;image&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;golang&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;image&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;golang&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;latest&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;image&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;golang&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1.13&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;image&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;library/golang&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1.13&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;image&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;index.docker.io/library/golang&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;image&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;index.docker.io/library/golang&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1.13&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;pull&#34;&gt;Pull&lt;/h3&gt;
+
+&lt;p&gt;Vela will always attempt to pull from its existing cache for images. However, users can force automatic upgrades to images when updates are available.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+steps:
+  - name: test
+    image: golang
+&lt;span style=&#34;color:#00a000&#34;&gt;+   pull: true
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go test ./...
+
+  - name: build
+    image: golang
+&lt;span style=&#34;color:#00a000&#34;&gt;+   pull: true
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go build
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Usage: Ruleset</title>
+      <link>https://go-vela.github.io/docs/usage/pipeline/steps/ruleset/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://go-vela.github.io/docs/usage/pipeline/steps/ruleset/</guid>
+      <description>
+        
+        
+        
+
+&lt;p&gt;The &lt;code&gt;ruleset&lt;/code&gt; declaration for a build step instructs Vela what set of rules (conditions) to execute a step under. These rules limit the execution of the step at runtime and, if all rules in the ruleset evaluate to true, the step is executed; otherwise it is skipped.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+steps:
+  - name: test
+    image: golang
+&lt;span style=&#34;color:#00a000&#34;&gt;+   ruleset:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     branch: master
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     event: push
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go test ./...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This ruleset would limit the execution of the step to if the build branch is &lt;code&gt;master&lt;/code&gt; and the build event triggered is a &lt;code&gt;push&lt;/code&gt; event. Below is a description of all rule types to trigger off of as well as how to configure them.&lt;/p&gt;
+
+&lt;h3 id=&#34;branch&#34;&gt;Branch&lt;/h3&gt;
+
+&lt;p&gt;This rule type limits the execution of a step to &lt;strong&gt;matching build branches&lt;/strong&gt;. The below example will run a step if the build branch is &lt;code&gt;stage&lt;/code&gt; or &lt;code&gt;master&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;ruleset&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;branch&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;stage&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;master&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;event&#34;&gt;Event&lt;/h3&gt;
+
+&lt;p&gt;This rule type limits the execution of a step to &lt;strong&gt;matching build events&lt;/strong&gt;. The below example will run a step if the build event is &lt;code&gt;push&lt;/code&gt; or &lt;code&gt;pull_request&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;ruleset&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;event&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;push&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;pull_request&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;status&#34;&gt;Status&lt;/h3&gt;
+
+&lt;p&gt;This rule type limits the execution of a step to &lt;strong&gt;matching build statuses&lt;/strong&gt;. The below example will run a step if the build status is &lt;code&gt;failure&lt;/code&gt; or &lt;code&gt;success&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;ruleset&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;status&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;failure&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;success&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;continue&#34;&gt;Continue&lt;/h3&gt;
+
+&lt;p&gt;This rule type limits the execution of a step to &lt;strong&gt;continuing on any failure&lt;/strong&gt;. The below example will run a step if &lt;code&gt;continue&lt;/code&gt; is set to &lt;code&gt;true&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;ruleset&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;continue&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;tag&#34;&gt;Tag&lt;/h3&gt;
+
+&lt;p&gt;This rule type limits the execution of a step to &lt;strong&gt;matching build references&lt;/strong&gt;. The below example will run a step if the build ref is &lt;code&gt;dev/*&lt;/code&gt; or &lt;code&gt;test/*&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;ruleset&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;tag&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev/&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;*,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;test/*&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;path&#34;&gt;Path&lt;/h3&gt;
+
+&lt;p&gt;This rule type limits the execution of a step to &lt;strong&gt;matching files changed in a repository&lt;/strong&gt;. The below example will run a step if file &lt;code&gt;README.md&lt;/code&gt;, any file of type &lt;code&gt;*.md&lt;/code&gt; in root directory or any file &lt;code&gt;./test/*&lt;/code&gt; directory has changed:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;ruleset&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;path&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;README.md&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;*.md&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;./test/*&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;if&#34;&gt;If&lt;/h3&gt;
+
+&lt;p&gt;Vela assumes from the above examples that you are implicitly choosing the &lt;code&gt;if&lt;/code&gt; rules. In other words, the below two examples are interpreted exactly the same to Vela:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+steps:
+  - name: test
+    image: golang
+&lt;span style=&#34;color:#00a000&#34;&gt;+   ruleset:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     branch: master
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     event: push
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go test ./...
+
+  - name: test
+    image: golang
+&lt;span style=&#34;color:#00a000&#34;&gt;+   ruleset:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     if:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+       branch: master
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+       event: push
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go test ./...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;These rulesets would limit the execution of the step to the build branch is &lt;code&gt;master&lt;/code&gt; and the build event triggered is a &lt;code&gt;push&lt;/code&gt; event.&lt;/p&gt;
+
+&lt;h3 id=&#34;unless&#34;&gt;Unless&lt;/h3&gt;
+
+&lt;p&gt;If not otherwise provided, Vela assumes evaluation of the logic to &lt;strong&gt;match&lt;/strong&gt; the provided rules. However, steps run if the rules &lt;strong&gt;do not match&lt;/strong&gt; like below:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+steps:
+  - name: test
+    image: golang
+&lt;span style=&#34;color:#00a000&#34;&gt;+   ruleset:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     unless:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+       branch: master
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+       event: push
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go test ./...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This ruleset would limit the execution of the step to always run &lt;strong&gt;unless&lt;/strong&gt; the build branch is &lt;code&gt;master&lt;/code&gt; and the build event triggered is &lt;code&gt;push&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;advanced&#34;&gt;Advanced&lt;/h3&gt;
+
+&lt;p&gt;Vela enables even more advanced conditional triggers by adding the &lt;code&gt;or&lt;/code&gt; operator. Consider the below example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+steps:
+  - name: test
+    image: golang
+&lt;span style=&#34;color:#00a000&#34;&gt;+   ruleset:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     event: [ push, pull_request, tag ]
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     tag: release/*
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go test ./...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This ruleset would limit the execution of the step to the build event is &lt;code&gt;push&lt;/code&gt;, &lt;code&gt;pull_request&lt;/code&gt; or &lt;code&gt;tag&lt;/code&gt; &lt;strong&gt;AND&lt;/strong&gt; the build ref is &lt;code&gt;release/*&lt;/code&gt;. The problem here is the step would stop executing on &lt;code&gt;push&lt;/code&gt; and &lt;code&gt;pull_request&lt;/code&gt; events unless the build ref matched, which is &lt;em&gt;likely unintended behavior&lt;/em&gt;. To fix it, add the &lt;code&gt;or&lt;/code&gt; operator:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+steps:
+  - name: test
+    image: golang
+&lt;span style=&#34;color:#00a000&#34;&gt;+   ruleset:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     if:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+       event: [ push, pull_request, tag ]
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+       tag: release/*
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     operator: or
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go test ./...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This ruleset would limit the execution of the step to the build event is &lt;code&gt;push&lt;/code&gt;, &lt;code&gt;pull_request&lt;/code&gt; or &lt;code&gt;tag&lt;/code&gt; &lt;strong&gt;OR&lt;/strong&gt; the build ref is &lt;code&gt;release/*&lt;/code&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Usage: Environment</title>
+      <link>https://go-vela.github.io/docs/usage/pipeline/steps/environment/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://go-vela.github.io/docs/usage/pipeline/steps/environment/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The environment declaration for a build step instructs Vela to insert the given input as environment variables.&lt;/p&gt;
+
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Warning&lt;/h4&gt;
+&lt;p&gt;You should not use environment for plugin parameters or secrets.&lt;/p&gt;
+
+&lt;p&gt;Please see &lt;a href=&#34;../parameters/&#34;&gt;parameters&lt;/a&gt; or &lt;a href=&#34;../secrets/&#34;&gt;secrets&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;steps:
+  - name: install
+    image: golang:latest
+    pull: true
+&lt;span style=&#34;color:#00a000&#34;&gt;+   environment:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     CGO_ENABLED: &amp;#39;0&amp;#39;
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     GOOS: linux
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go get ./...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Usage: Parameters</title>
+      <link>https://go-vela.github.io/docs/usage/pipeline/steps/parameters/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://go-vela.github.io/docs/usage/pipeline/steps/parameters/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The parameters declaration for a build step is used to pass values to a plugin.&lt;/p&gt;
+
+&lt;p&gt;Parameters are injected into the build step as &lt;code&gt;PARAMETER_[NAME]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The values needed for a plugin are documented in that plugins docs.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;steps:
+  - name: api-call
+    image: myplugin:v1.0.0
+    pull: true
+&lt;span style=&#34;color:#00a000&#34;&gt;+   parameters:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     api_url: &amp;#39;myapi.mydomain.com&amp;#39;
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;    commands:
+      - go get ./...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This would set an environment variable of &lt;code&gt;PARAMETER_API_URL&lt;/code&gt; with a value of &lt;code&gt;myapi.mydomain.com&lt;/code&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Usage: Secrets</title>
+      <link>https://go-vela.github.io/docs/usage/pipeline/steps/secrets/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://go-vela.github.io/docs/usage/pipeline/steps/secrets/</guid>
+      <description>
+        
+        
+        
+
+&lt;p&gt;The &lt;code&gt;secrets&lt;/code&gt; declaration for a pipeline instructs Vela what secrets to retrieve before executing a build.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+&lt;span style=&#34;color:#00a000&#34;&gt;+secrets:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+  - name: docker_username
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+    key:  docker_username
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+    engine: native
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+    type: repo
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+  - name: docker_password
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+    key:  docker_password
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+    engine: native
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+    type: repo
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This top level declaration then allows injection of these secret variables into the environment for the provided build step(s). The step(s) request access to these variables using the same &lt;code&gt;secrets&lt;/code&gt; declaration which injects the variables into the runtime environment as all upper case variables.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+steps:
+  - name: docker
+&lt;span style=&#34;color:#a40000&#34;&gt;-   username: &amp;lt;username&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;-   password: &amp;lt;password&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+   secrets: [ docker_username, docker_password ]
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;
+secrets:
+  - name: docker_username
+    key:  docker_username
+    engine: native
+    type: repo
+  - name: docker_password
+    key:  docker_password
+    engine: native
+    type: repo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;alternate-names&#34;&gt;Alternate Names&lt;/h3&gt;
+
+&lt;p&gt;There may be scenarios where there is a requirement to store secrets using alternate names. Secrets can be mapped to an alternate name when injected into the entire build or an individual build step.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+steps:
+  - name: docker
+&lt;span style=&#34;color:#a40000&#34;&gt;-   secrets: [ docker_username, docker_password ]
+&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+   secrets:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     - source: docker_eng_username
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+       target: docker_username
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     - source: docker_eng_password
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+       target: docker_password
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#00a000&#34;&gt;+secrets:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;-  - name: docker_username
+&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+  - name: docker_eng_username
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+    key:  username
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;-  - name: docker_password
+&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+  - name: docker_eng_password
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+    key:  password
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;reference-secret&#34;&gt;Reference Secret&lt;/h3&gt;
+
+&lt;p&gt;Vela offers a number of different ways to reference your secrets. To see the full set of options navigate to the &lt;a href=&#34;https://go-vela.github.io/docs/docs/concepts/pipeline/secrets/&#34;&gt;secret reference&lt;/a&gt; section.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Usage: Commands</title>
+      <link>https://go-vela.github.io/docs/usage/pipeline/steps/commands/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://go-vela.github.io/docs/usage/pipeline/steps/commands/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;code&gt;commands&lt;/code&gt; declaration for a build step instructs Vela what commands to execute inside the container using the local &lt;a href=&#34;https://en.wikipedia.org/wiki/Shell_(computing)&#34; target=&#34;_blank&#34;&gt;shell&lt;/a&gt; environment.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;version: &amp;#34;1&amp;#34;
+
+steps:
+  - name: build
+    image: golang
+&lt;span style=&#34;color:#00a000&#34;&gt;+   commands:
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     - go test ./...
+&lt;/span&gt;&lt;span style=&#34;color:#00a000&#34;&gt;+     - go build
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Using the above example, the provided commands are converted to a simple shell script that looks like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#!/bin/sh
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#204a87&#34;&gt;set&lt;/span&gt; -e
+
+go &lt;span style=&#34;color:#204a87&#34;&gt;test&lt;/span&gt; ./...
+
+go build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In turn, the above shell script is executed as the Docker entrypoint for the container:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;docker run --entrypoint&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;build.sh golang&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
+  </channel>
+</rss>
