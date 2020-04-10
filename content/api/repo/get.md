@@ -60,7 +60,8 @@ curl \
     "allow_pull": true,
     "allow_push": true,
     "allow_deploy": false,
-    "allow_tag": false
+    "allow_tag": false,
+    "allow_comment": false
   },
   {
     "id": 2,
@@ -79,7 +80,8 @@ curl \
     "allow_pull": true,
     "allow_push": true,
     "allow_deploy": false,
-    "allow_tag": false
+    "allow_tag": false,
+    "allow_comment": false
   }
 ]
 ```

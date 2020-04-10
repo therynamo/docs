@@ -77,6 +77,43 @@ ruleset:
   path: [ README.md, "*.md", "./test/*" ]
 ```
 
+### Comment
+
+This rule type limits the execution of a step to **matching a pull request comment**. This extends the ability to start new builds through interactions within a pull request. The below example will run a step if a "run build" comment is added to the bottom of a pull request.
+
+Note: 
+* The `comment` event must be enabled for the repo
+* The `comment` event must be enabled for any secrets required for the step
+* Consider explicitely adding `event` to ruleset for **all** steps as steps with no explicit event(s) will run when the comment matches
+
+```yaml
+ruleset:
+  comment: [ "run build" ]
+```
+
+```yaml
+steps:
+  - name: echo_always
+    image: alpine:latest
+    commands:
+      - echo "i will always run with comment event"
+
+  - name: echo_never_run_comment
+    image: alpine:latest
+    commands:
+      - echo "i will never run with comment event"
+    ruleset:
+      event: [ push, pull_request ]
+
+  - name: echo_only_run_comment
+    image: alpine:latest
+    commands:
+      - echo "i will only run with comment event"
+    ruleset:
+      event: [ comment ]
+      comment: [ "run build" ]
+```
+
 ### If
 
 Vela assumes from the above examples that you are implicitly choosing the `if` rules. In other words, the below two examples are interpreted exactly the same to Vela:

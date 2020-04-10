@@ -74,4 +74,5 @@ allowpull: true
 allowpush: true
 allowdeploy: false
 allowtag: false
+allowcomment: false
 ```
